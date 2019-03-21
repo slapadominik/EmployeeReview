@@ -13,21 +13,23 @@ export default class Login extends Component {
     }
 
     submit = (e) => {
-        axios.post(BASE_URL+'/api/security', {
+        e.preventDefault();
+        axios.post(BASE_URL+'/api/security/login', {
             email: this.state.email,
             password: this.state.password
         })
         .then(response => {
-            if (response.status===200){
-                this.props.login(response.data);
+            if (response.status===200){            
                 this.props.history.push('/')
+                console.log(response.data)
             }
+            console.log('git');
         }).catch(error => {
             if (error.response) {
                 alert(error.response.data);
             }
             else{
-                alert(error + '. Probably problem with CORS on the server side.')
+                console.log(error);
             }
         });
     }
@@ -45,7 +47,7 @@ export default class Login extends Component {
             <div className="container h-100">
                 <div className="row h-100 justify-content-center align-items-center">
                     <form className="col-4">
-                        <div class="form-group">
+                        <div className="form-group">
                             <label for="formGroupExampleInput">E-mail</label>
                             <input type="text" className="form-control" placeholder="E-mail" value={this.state.email} onChange={this.loginOnChange}/>
                         </div>
