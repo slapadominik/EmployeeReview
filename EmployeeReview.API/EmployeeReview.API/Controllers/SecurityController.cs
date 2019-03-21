@@ -5,7 +5,6 @@ using EmployeeReview.Domain.Entities;
 using EmployeeReview.Domain.Exceptions;
 using EmployeeReview.Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 namespace EmployeeReview.API.Controllers
 {
@@ -25,12 +24,19 @@ namespace EmployeeReview.API.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody]Credentials credentials)
         {
-            var token = _securityService.Login(credentials.Email, credentials.Password);
-            
-            if (token == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
-
-            return Ok(token);
+            try
+            {
+                var token = _securityService.Login(credentials.Email, credentials.Password);
+                return Ok(token);
+            }
+            catch (UserNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (WrongCredentialsException ex)
+            {
+                return Unauthorized(ex.Message);
+            }
         }
 
         [HttpPost("register")]
@@ -44,7 +50,7 @@ namespace EmployeeReview.API.Controllers
             }
             catch (EmailAlreadyExistsException ex)
             {
-                return BadRequest();
+                return StatusCode(409, ex.Message);
             }
             catch (Exception ex)
             {

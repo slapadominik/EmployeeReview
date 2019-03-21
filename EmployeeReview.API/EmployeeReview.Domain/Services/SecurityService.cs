@@ -34,7 +34,7 @@ namespace EmployeeReview.Domain.Services
 
             if (existingUser != null)
             {
-                throw new EmailAlreadyExistsException($"Email already exists!");
+                throw new EmailAlreadyExistsException($"User with this e-mail already exists.");
             }
             var userDAO = _mapper.Map<User, UserDAO>(user);
             var (passwordHash, passwordSalt) = _securityTokenHelper.HashPassword(user.Password);
@@ -51,8 +51,18 @@ namespace EmployeeReview.Domain.Services
 
         public string Login(string email, string password)
         {
-            throw new NotImplementedException();
-            //return _securityTokenHelper.CreateToken(user);
+            var user = _dbContext.Users.SingleOrDefault(x => x.Email == email);
+            if (user == null)
+            {
+                throw new UserNotFoundException($"User with given e-mail doesn't exist.");
+            }
+            var passwordHash = _securityTokenHelper.HashPassword(password, user.PasswordSalt);
+            if (!_securityTokenHelper.IsPasswordHashEqual(passwordHash, user.Password))
+            {
+                throw new WrongCredentialsException($"Invalid e-mail or password");
+            }
+
+            return _securityTokenHelper.CreateToken(email, user.Id);
         }
     }
 }
