@@ -1,0 +1,12 @@
+.navbar {
+    color: red !important;
+    background-color: #d91e18!important;   
+}
+
+
+.navbar-brand {
+    float: left;
+    padding: 15px;
+    text-align: center;
+    width: 100%;
+}
