@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -27,5 +28,7 @@ namespace EmployeeReview.Infrastructure.DAO
         [MaxLength(30)]
         [Required]
         public string LastName { get; set; }
+
+        public List<UserRoleDAO> UserRole { get; } = new List<UserRoleDAO>();
     }
 }

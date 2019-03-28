@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using EmployeeReview.Infrastructure.Migrations;
 
 namespace EmployeeReview.Domain.Entities
 {
@@ -10,5 +12,11 @@ namespace EmployeeReview.Domain.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public User Superior { get; set; }
+        public ICollection<Role> Roles { get; set; }
+
+        public User()
+        {
+            Roles = new List<Role>();
+        }
     }
 }

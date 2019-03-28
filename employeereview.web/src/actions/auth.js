@@ -1,9 +1,9 @@
 import {  LOGIN, LOGOUT } from './types';
 
-export const login = (username) => dispatch => {
+export const login = (token) => dispatch => {
     dispatch({
         type: LOGIN,
-        payload: username
+        payload: token
     })    
 }
 

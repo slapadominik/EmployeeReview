@@ -5,7 +5,7 @@ namespace EmployeeReview.Domain.Helpers
 {
     public interface ISecurityHelper
     {
-        string CreateToken(string email, Guid id);
+        string CreateToken(User user);
         (byte[] passwordHash, byte[] salt) HashPassword(string password);
         byte[] HashPassword(string password, byte[] salt);
         bool IsPasswordHashEqual(byte[] passwordHash1, byte[] passwordHash2);

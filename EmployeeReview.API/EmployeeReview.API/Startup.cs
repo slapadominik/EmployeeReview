@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using EmployeeReview.Domain.Converters;
+using EmployeeReview.Domain.Converters.Interfaces;
 using EmployeeReview.Domain.Helpers;
 using EmployeeReview.Domain.Services;
 using EmployeeReview.Domain.Services.Interfaces;
@@ -59,6 +61,8 @@ namespace EmployeeReview.API
 
             services.AddScoped<ISecurityService, SecurityService>();
             services.AddScoped<ISecurityHelper, SecurityHelper>();
+            services.AddScoped<IEmployeeConverter, EmployeeConverter>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddOptions();
             services.Configure<AppSettings>(Configuration.GetSection("Security"));
         }

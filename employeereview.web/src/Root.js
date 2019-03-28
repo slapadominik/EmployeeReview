@@ -9,10 +9,7 @@ import './components/Navbar.css';
 const Root = ({ store }) => (
     <Provider store={store}>
         <BrowserRouter>
-            <div>
             <Navbar />
-            </div>
-
             <Route exact path="/" component={LoginForm} />
         </BrowserRouter>
     </Provider>
