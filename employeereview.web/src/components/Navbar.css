@@ -2,3 +2,14 @@
     background-color: #d91e18!important;   
 }
 
+.disable-link {
+    pointer-events: none;
+  }
+
+.nav-link{
+    color: #e3e5e8;
+}
+
+.nav-link:hover{
+    color: white !important;
+}
