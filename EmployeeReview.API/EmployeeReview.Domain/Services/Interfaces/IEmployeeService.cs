@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using EmployeeReview.Domain.Entities;
 
 namespace EmployeeReview.Domain.Services.Interfaces
@@ -6,5 +7,6 @@ namespace EmployeeReview.Domain.Services.Interfaces
     public interface IEmployeeService
     {
         IEnumerable<Employee> GetAll();
+        Employee GetDetailsAboutMe(Guid userId);
     }
 }

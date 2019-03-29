@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using EmployeeReview.Domain.Converters.Interfaces;
@@ -26,5 +27,13 @@ namespace EmployeeReview.Domain.Services
             var employees = usersDAO.ConvertAll(x => _employeeConverter.Convert(x));
             return employees;
         }
+
+        public Employee GetDetailsAboutMe(Guid userId)
+        {
+            var userDao = _dbContext.Users.Include(x => x.UserRole).ThenInclude(x => x.Role).Single(x => x.Id == userId);
+
+            return _employeeConverter.Convert(userDao);
+        }
+
     }
 }

@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {BASE_URL} from '../constants';
 import '../App.css';
-import { login } from '../actions/auth';
 import { connect } from 'react-redux';
+import { login} from '../actions/auth';
 
-export default class Login extends Component {
+class Login extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -22,8 +22,9 @@ export default class Login extends Component {
         })
         .then(response => {
             if (response.status===200){
+                this.props.login(response.data);        
                 localStorage.setItem('jwtToken', response.data);
-                console.log('Login successful');          
+                console.log('Login successful');  
                 this.props.history.push('/')
             }
         }).catch(error => {
@@ -54,8 +55,8 @@ export default class Login extends Component {
                             <input type="text" className="form-control" placeholder="E-mail" value={this.state.email} onChange={this.loginOnChange}/>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="formGroupExampleInput2">Password</label>
-                            <input type="password" className="form-control"  placeholder="Password" value={this.state.password} onChange={this.passwordOnChange}/>
+                            <label htmlFor="formGroupExampleInput2">Hasło</label>
+                            <input type="password" className="form-control"  placeholder="Hasło" value={this.state.password} onChange={this.passwordOnChange}/>
                         </div>
                          <input type="submit" value="Login" onClick={this.submit} />
                     </form>
@@ -64,3 +65,5 @@ export default class Login extends Component {
         )
     }
 }
+
+export default connect(null, { login })(Login)
