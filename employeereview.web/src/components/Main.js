@@ -8,8 +8,8 @@ class Main extends Component {
 
     componentDidMount(){
         var decoded = jwt_decode(this.props.token);
-        console.log(decoded);
-        axios.get(BASE_URL+'/api/employees', { headers: {"Authorization" : `Bearer ${this.props.token}`}})
+        if (decoded.role==='Administrator'){
+            axios.get(BASE_URL+'/api/employees', { headers: {"Authorization" : `Bearer ${this.props.token}`}})
         .then(response => {
             if (response.status===200){
                 console.log(response.data);
@@ -22,6 +22,7 @@ class Main extends Component {
                 console.log(error);
             }
         });
+        }
     }
 
     render() {

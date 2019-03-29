@@ -30,8 +30,8 @@ namespace EmployeeReview.Domain.Services
 
         public Employee GetDetailsAboutMe(Guid userId)
         {
-            var userDao = _dbContext.Users.Single(x => x.Id==userId);
-            
+            var userDao = _dbContext.Users.Include(x => x.UserRole).ThenInclude(x => x.Role).Single(x => x.Id == userId);
+
             return _employeeConverter.Convert(userDao);
         }
 

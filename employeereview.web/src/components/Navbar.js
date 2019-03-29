@@ -13,7 +13,7 @@ class Navbar extends Component {
     render() {    
         return (
                 <nav className="navbar navbar-dark">
-                    <a className="navbar-brand" href="/">System oceny pracowników</a>
+                    <Link to="/" className="navbar-brand">System oceny pracowników</Link>
                     <ul className="nav">
                             {this.props.token === null && <li className="nav-item">
                                 <Link to="/login" className="nav-link">Zaloguj się</Link>
