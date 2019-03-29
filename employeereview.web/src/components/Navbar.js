@@ -19,7 +19,7 @@ class Navbar extends Component {
                                 <Link to="/login" className="nav-link">Zaloguj się</Link>
                             </li>}
                             {this.props.token !== null && <li className="nav-item">
-                                <Link to="/logout" className="nav-link">Profil</Link>
+                                <Link to="/profile" className="nav-link">Profil</Link>
                             </li>}
                             {this.props.token !== null && <li className="nav-item" onClick={this.logout}>
                                 <Link to="/logout" className="nav-link">Wyloguj się</Link>

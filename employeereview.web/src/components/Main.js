@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {BASE_URL} from '../constants';
+import { connect } from 'react-redux';
+import jwt_decode from 'jwt-decode'
 
-export default class Main extends Component {
+class Main extends Component {
 
     componentDidMount(){
-        axios.get(BASE_URL+'/api/employees')
+        var decoded = jwt_decode(this.props.token);
+        console.log(decoded);
+        axios.get(BASE_URL+'/api/employees', { headers: {"Authorization" : `Bearer ${this.props.token}`}})
         .then(response => {
             if (response.status===200){
                 console.log(response.data);
             }
         }).catch(error => {
             if (error.response) {
-                alert(error.response.data);
+                alert('Unauthorized');
             }
             else{
                 console.log(error);
@@ -28,3 +32,8 @@ export default class Main extends Component {
         );
     }
 }
+const mapStateToProps = state => ({
+    token: state.auth.token
+});
+
+export default connect(mapStateToProps, null)(Main)

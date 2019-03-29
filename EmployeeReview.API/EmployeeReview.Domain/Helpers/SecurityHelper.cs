@@ -26,7 +26,7 @@ namespace EmployeeReview.Domain.Helpers
 
             List<Claim> claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email)
             };
             foreach (var role in user.Roles)
