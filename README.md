@@ -1,6 +1,7 @@
 # EmployeeReview
 
 1. API
+
 API is written in C# and targets .NET Core 2.2
 To build the application, you need to have .NET Core SDK installed on your computer. You can download it from here https://dotnet.microsoft.com/download
 
@@ -14,6 +15,7 @@ Running API:
 'dotnet run'
 
 2. React.JS Web client
+
 You need to have Node.JS installed to build and run the application.
 
 Running web client:
