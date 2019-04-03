@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 import {BASE_URL} from '../constants';
+import './Profile.css';
 
 class Profile extends Component {
     constructor(props){
@@ -14,8 +14,7 @@ class Profile extends Component {
         };
     }
     componentDidMount(){
-        const decodedToken = jwt_decode(this.props.token);
-        axios.get(BASE_URL+'/api/employees/'+decodedToken.jti, { headers: {"Authorization" : `Bearer ${this.props.token}`}})
+        axios.get(BASE_URL+`/employees/${this.props.user.jti}`)
         .then(response => {
             if (response.status===200){
                 console.log(response.data)
@@ -37,7 +36,7 @@ class Profile extends Component {
     }
     render() {
         return (
-            <div className="container h-100">
+            <div className="container profile">
                 <div className="row justify-content-center align-items-center">
                     <h4>Imię: {this.state.firstName}</h4>
                 </div>
@@ -56,8 +55,10 @@ class Profile extends Component {
         );
     }
 }
-const mapStateToProps = state => ({
-    token: state.auth.token
-});
 
+function mapStateToProps(state){
+    return {
+        user: state.auth.user
+    }
+}
 export default connect(mapStateToProps, null)(Profile)

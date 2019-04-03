@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import {BASE_URL} from '../constants';
 import '../App.css';
 import { connect } from 'react-redux';
-import { login} from '../actions/auth';
+import { login} from '../actions/authActions';
 
 class Login extends Component {
     constructor(props){
@@ -16,35 +14,22 @@ class Login extends Component {
 
     submit = (e) => {
         e.preventDefault();
-        axios.post(BASE_URL+'/api/security/login', {
-            email: this.state.email,
-            password: this.state.password
-        })
-        .then(response => {
-            if (response.status===200){
-                this.props.login(response.data);        
-                localStorage.setItem('jwtToken', response.data);
-                console.log('Login successful');  
+        this.props.login(this.state)
+        .then(
+            resp => {
+                console.log(this.props)
                 this.props.history.push('/')
-            }
-        }).catch(error => {
-            if (error.response) {
-                alert(error.response.data);
-            }
-            else{
-                console.log(error);
-            }
-        });
+            });
     }
 
     passwordOnChange = (e) => {
         this.setState({password: e.target.value});
     }
 
+
     loginOnChange = (e) => {
         this.setState({email: e.target.value});
     }
-
     render() {
         return (
             <div className="container h-100">
@@ -58,8 +43,8 @@ class Login extends Component {
                             <label htmlFor="formGroupExampleInput2">Hasło</label>
                             <input type="password" className="form-control"  placeholder="Hasło" value={this.state.password} onChange={this.passwordOnChange}/>
                         </div>
-                         <input type="submit" value="Login" onClick={this.submit} />
-                    </form>
+                         <input type="submit" value="Login" onClick={this.submit} className="btn btn-danger"/>                                                                                           
+                    </form>                         
             </div>
         </div>
         )

@@ -2,14 +2,11 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {BASE_URL} from '../constants';
 import { connect } from 'react-redux';
-import jwt_decode from 'jwt-decode'
 
 class Main extends Component {
 
     componentDidMount(){
-        var decoded = jwt_decode(this.props.token);
-        if (decoded.role==='Administrator'){
-            axios.get(BASE_URL+'/api/employees', { headers: {"Authorization" : `Bearer ${this.props.token}`}})
+        axios.get(BASE_URL+'/employees')
         .then(response => {
             if (response.status===200){
                 console.log(response.data);
@@ -22,7 +19,6 @@ class Main extends Component {
                 console.log(error);
             }
         });
-        }
     }
 
     render() {
@@ -33,8 +29,7 @@ class Main extends Component {
         );
     }
 }
-const mapStateToProps = state => ({
-    token: state.auth.token
-});
 
-export default connect(mapStateToProps, null)(Main)
+
+
+export default connect(null, null)(Main)
