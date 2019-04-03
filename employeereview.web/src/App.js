@@ -7,6 +7,7 @@ import './components/Navbar.css';
 import Logout from './components/Logout';
 import Main from './components/Main';
 import Profile from './components/Profile';
+import RegisterForm from './components/RegisterForm';
 
 class App extends Component {
     render(){
@@ -17,6 +18,7 @@ class App extends Component {
             <Route exact path="/login" component={LoginForm} />
             <Route exact path="/logout" component={Logout} />
             <Route exact path="/profile" component={Profile} />
+            <Route exact path="/register" component={RegisterForm} />
         </BrowserRouter>);
     }
 }

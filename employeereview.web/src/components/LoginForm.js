@@ -3,6 +3,7 @@ import '../App.css';
 import { connect } from 'react-redux';
 import { login} from '../actions/authActions';
 
+
 class Login extends Component {
     constructor(props){
         super(props);
@@ -17,7 +18,6 @@ class Login extends Component {
         this.props.login(this.state)
         .then(
             resp => {
-                console.log(this.props)
                 this.props.history.push('/')
             });
     }
@@ -26,6 +26,10 @@ class Login extends Component {
         this.setState({password: e.target.value});
     }
 
+    registerOnClick = (e) => {
+        e.preventDefault();
+        this.props.history.push('/register');
+    }
 
     loginOnChange = (e) => {
         this.setState({email: e.target.value});
@@ -43,7 +47,12 @@ class Login extends Component {
                             <label htmlFor="formGroupExampleInput2">Hasło</label>
                             <input type="password" className="form-control"  placeholder="Hasło" value={this.state.password} onChange={this.passwordOnChange}/>
                         </div>
-                         <input type="submit" value="Login" onClick={this.submit} className="btn btn-danger"/>                                                                                           
+                         <input type="submit" value="Login" onClick={this.submit} className="btn btn-danger"/> 
+                         <div className="float-right">
+                            <button className="btn btn-outline-danger" onClick={this.registerOnClick}>
+                                Zarejestruj się
+                            </button>
+                        </div>                                                                                          
                     </form>                         
             </div>
         </div>

@@ -1,7 +1,14 @@
 html { height: 100%; }
-body { height: 100%; display: flex; }
+body { 
+  height: 100%; 
+  display: flex;
+}
 body > div { flex: 1; }
 
 .bg-dark {
   background-color:red !important;
+}
+
+.display-4{
+  font-size:2.5rem !important;
 }
