@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using EmployeeReview.Domain.Common.Exceptions;
 using EmployeeReview.Domain.UserManagement.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,16 +27,17 @@ namespace EmployeeReview.API.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        public IActionResult GetDetailsAboutMe(Guid id)
-        {            
-            var userIdClaim = User.Claims.SingleOrDefault(x => x.Type == "jti");
-            if (userIdClaim?.Value != id.ToString())
+        public IActionResult GetDetails(Guid id)
+        {
+            try
+            {
+                var employeeDetails = _userManagementService.GetDetailsAboutMe(id);
+                return Ok(employeeDetails);
+            }
+            catch (UnauthorizedOperationException ex)
             {
                 return Unauthorized();
             }
-
-            var employeeDetails =_userManagementService.GetDetailsAboutMe(Guid.Parse(userIdClaim.Value));
-            return Ok(employeeDetails);
         }
     }
 }

@@ -6,16 +6,20 @@ using System.Threading.Tasks;
 using AutoMapper;
 using EmployeeReview.Domain.Common;
 using EmployeeReview.Domain.Common.Persistence;
+using EmployeeReview.Domain.Common.Security;
 using EmployeeReview.Domain.Security.Helpers;
 using EmployeeReview.Domain.Security.Services;
 using EmployeeReview.Domain.Security.Services.Interfaces;
 using EmployeeReview.Domain.UserManagement.Converters;
 using EmployeeReview.Domain.UserManagement.Converters.Interfaces;
+using EmployeeReview.Domain.UserManagement.Repositories;
+using EmployeeReview.Domain.UserManagement.Repositories.Interfaces;
 using EmployeeReview.Domain.UserManagement.Services;
 using EmployeeReview.Domain.UserManagement.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -66,6 +70,13 @@ namespace EmployeeReview.API
             services.AddScoped<ISecurityHelper, SecurityHelper>();
             services.AddScoped<IEmployeeConverter, EmployeeConverter>();
             services.AddScoped<IUserManagementService, UserManagementService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddHttpContextAccessor();
+            services.AddScoped<IPrincipalHelper>(provider =>
+            {
+                var context = provider.GetService<IHttpContextAccessor>();
+                return new PrincipalHelper{Principal = context.HttpContext.User };
+            });
             services.AddOptions();
             services.Configure<AppSettings>(Configuration.GetSection("Security"));
         }
