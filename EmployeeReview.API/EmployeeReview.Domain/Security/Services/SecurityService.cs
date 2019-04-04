@@ -5,9 +5,10 @@ using EmployeeReview.Domain.Common.Exceptions;
 using EmployeeReview.Domain.Security.DTO;
 using EmployeeReview.Domain.Security.Helpers;
 using EmployeeReview.Domain.Security.Services.Interfaces;
-using EmployeeReview.Infrastructure.DAO;
-using EmployeeReview.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
+using ApplicationDbContext = EmployeeReview.Domain.Common.Persistence.ApplicationDbContext;
+using UserDAO = EmployeeReview.Domain.Common.Persistence.DAO.UserDAO;
+using UserRoleDAO = EmployeeReview.Domain.Common.Persistence.DAO.UserRoleDAO;
 
 namespace EmployeeReview.Domain.Security.Services
 {

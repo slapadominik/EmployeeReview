@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EmployeeReview.Domain.Security.DTO;
-using EmployeeReview.Infrastructure.DAO;
+using RoleDAO = EmployeeReview.Domain.Common.Persistence.DAO.RoleDAO;
+using UserDAO = EmployeeReview.Domain.Common.Persistence.DAO.UserDAO;
 
 namespace EmployeeReview.Domain.Security.Converters
 {

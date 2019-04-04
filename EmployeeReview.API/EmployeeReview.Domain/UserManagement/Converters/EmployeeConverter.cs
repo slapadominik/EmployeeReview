@@ -2,7 +2,7 @@
 using EmployeeReview.Domain.Security.DTO;
 using EmployeeReview.Domain.UserManagement.Converters.Interfaces;
 using EmployeeReview.Domain.UserManagement.DTO;
-using EmployeeReview.Infrastructure.DAO;
+using UserDAO = EmployeeReview.Domain.Common.Persistence.DAO.UserDAO;
 
 namespace EmployeeReview.Domain.UserManagement.Converters
 {

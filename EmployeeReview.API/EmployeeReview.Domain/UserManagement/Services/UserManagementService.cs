@@ -4,8 +4,8 @@ using System.Linq;
 using EmployeeReview.Domain.UserManagement.Converters.Interfaces;
 using EmployeeReview.Domain.UserManagement.DTO;
 using EmployeeReview.Domain.UserManagement.Services.Interfaces;
-using EmployeeReview.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
+using ApplicationDbContext = EmployeeReview.Domain.Common.Persistence.ApplicationDbContext;
 
 namespace EmployeeReview.Domain.UserManagement.Services
 {

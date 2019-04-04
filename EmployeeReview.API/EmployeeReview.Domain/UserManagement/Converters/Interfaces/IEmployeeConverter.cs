@@ -1,5 +1,5 @@
 ﻿using EmployeeReview.Domain.UserManagement.DTO;
-using EmployeeReview.Infrastructure.DAO;
+using UserDAO = EmployeeReview.Domain.Common.Persistence.DAO.UserDAO;
 
 namespace EmployeeReview.Domain.UserManagement.Converters.Interfaces
 {

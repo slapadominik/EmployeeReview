@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EmployeeReview.Domain\EmployeeReview.Domain.csproj" />
-    <ProjectReference Include="..\EmployeeReview.Infrastructure\EmployeeReview.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -6,10 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\EmployeeReview.Infrastructure\EmployeeReview.Infrastructure.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.3" />
   </ItemGroup>
 
   <ItemGroup>

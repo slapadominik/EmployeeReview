@@ -5,10 +5,12 @@ using EmployeeReview.Domain.UserManagement.Services;
 using EmployeeReview.Domain.UserManagement.Services.Interfaces;
 using FluentAssertions;
 using Moq;
-using Xunit;
+using NUnit.Framework;
+
 
 namespace EmployeeReview.Domain.Tests.UserManagement.Services
 {
+    [TestFixture]
     public class UserManagementServiceTests
     {
         private readonly IUserManagementService _sut;
@@ -21,7 +23,7 @@ namespace EmployeeReview.Domain.Tests.UserManagement.Services
             _sut = _fixture.Create<UserManagementService>();
         }
 
-        [Fact]
+        [Test]
         public void GetAll_ReturnsUserDetails()
         {
             //Arrange
