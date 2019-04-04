@@ -19,11 +19,21 @@ class ProfileEditForm extends Component {
     }
     submit = e => {
         e.preventDefault();
-
+        axios.put(BASE_URL+`/users/${this.props.user.jti}`, 
+        {
+            firstName: this.state.firstName,
+            lastName: this.state.lastName
+        })
+        .then(resp => {
+            this.props.history.goBack();
+        })
+        .catch(err =>{
+            console.log(err);
+        })
     }
 
     componentDidMount(){
-        axios.get(BASE_URL+`/employees/${this.props.user.jti}`)
+        axios.get(BASE_URL+`/users/${this.props.user.jti}`)
         .then(response => {
             if (response.status===200){
                 console.log(response.data)

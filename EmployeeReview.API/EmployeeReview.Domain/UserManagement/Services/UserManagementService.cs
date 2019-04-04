@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EmployeeReview.Domain.Common.Exceptions;
+using EmployeeReview.Domain.Common.Persistence.DAO;
 using EmployeeReview.Domain.Common.Security;
 using EmployeeReview.Domain.UserManagement.Converters.Interfaces;
 using EmployeeReview.Domain.UserManagement.DTO;
@@ -37,8 +38,8 @@ namespace EmployeeReview.Domain.UserManagement.Services
 
         public UserDetails GetDetailsAboutMe(Guid userId)
         {
-            var loggedUser = _principalHelper.Principal.Claims.SingleOrDefault(x => x.Type == "jti");
-            if (Guid.Parse(loggedUser.Value) != userId)
+            var loggedUserId = _principalHelper.Principal.Claims.SingleOrDefault(x => x.Type == "jti");
+            if (Guid.Parse(loggedUserId.Value) != userId)
             {
                 throw new UnauthorizedOperationException();
             }
@@ -46,5 +47,19 @@ namespace EmployeeReview.Domain.UserManagement.Services
             return _employeeConverter.Convert(userDao);
         }
 
+        public void UpdatePersonalInformation(UserPersonalInformation userToUpdate)
+        {
+            var loggedUserId = _principalHelper.Principal.Claims.SingleOrDefault(x => x.Type == "jti");
+            if (!_principalHelper.Principal.IsInRole("Administrator") 
+                || Guid.Parse(loggedUserId.Value) != userToUpdate.Id)
+            {
+                throw new UnauthorizedOperationException();
+            }
+
+            var user = _userRepository.GetUserDetailById(userToUpdate.Id);
+            user.FirstName = userToUpdate.FirstName;
+            user.LastName = userToUpdate.LastName;
+            _userRepository.SaveChanges();
+        }
     }
 }

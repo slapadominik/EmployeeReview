@@ -16,7 +16,7 @@ class Profile extends Component {
         };
     }
     componentDidMount(){
-        axios.get(BASE_URL+`/employees/${this.props.user.jti}`)
+        axios.get(BASE_URL+`/users/${this.props.user.jti}`)
         .then(response => {
             if (response.status===200){
                 console.log(response.data)

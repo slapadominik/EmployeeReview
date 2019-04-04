@@ -8,5 +8,6 @@ namespace EmployeeReview.Domain.UserManagement.Repositories.Interfaces
     {
         IEnumerable<UserDAO> GetAllUsersDetails();
         UserDAO GetUserDetailById(Guid userId);
+        int SaveChanges();
     }
 }

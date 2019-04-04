@@ -26,5 +26,10 @@ namespace EmployeeReview.Domain.UserManagement.Repositories
         {
             return _dbContext.Users.Include(x => x.UserRole).ThenInclude(x => x.Role).Single(x => x.Id == userId);            
         }
+
+        public int SaveChanges()
+        {
+            return _dbContext.SaveChanges();
+        }
     }
 }

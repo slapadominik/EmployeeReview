@@ -23,7 +23,6 @@ class Navbar extends Component {
                             {this.props.auth.isAuthenticated && <li className="nav-item">
                                 <Link to="/profile" className="nav-link">Profil</Link>
                             </li>}
-
                             {this.props.auth.isAuthenticated && <li className="nav-item" onClick={this.logout}>
                                 <Link to="/logout" className="nav-link">Wyloguj się</Link>
                             </li>}

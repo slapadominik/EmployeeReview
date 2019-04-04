@@ -7,7 +7,7 @@ class Main extends Component {
     componentDidMount(){
         console.log(this.props.user)
         if (this.props.user.role==="Administrator"){
-            axios.get(BASE_URL+'/employees')
+            axios.get(BASE_URL+'/users')
             .then(response => {
                 if (response.status===200){
                     console.log(response.data);
