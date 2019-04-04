@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-
-namespace EmployeeReview.Domain.Helpers
+﻿namespace EmployeeReview.Domain.Common
 {
     public class AppSettings
     {

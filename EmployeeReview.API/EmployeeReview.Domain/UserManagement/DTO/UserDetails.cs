@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using EmployeeReview.Domain.Security.DTO;
 
-namespace EmployeeReview.Domain.Entities
+namespace EmployeeReview.Domain.UserManagement.DTO
 {
-    public class Employee
+    public class UserDetails
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public ICollection<Role> Roles { get; set; }
 
-        public Employee()
+        public UserDetails()
         {
             Roles = new List<Role>();
         }

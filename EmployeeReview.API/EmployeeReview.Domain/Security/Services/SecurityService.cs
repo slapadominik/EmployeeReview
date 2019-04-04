@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using AutoMapper;
-using EmployeeReview.Domain.Entities;
-using EmployeeReview.Domain.Exceptions;
-using EmployeeReview.Domain.Helpers;
-using EmployeeReview.Domain.Services.Interfaces;
+using EmployeeReview.Domain.Common.Exceptions;
+using EmployeeReview.Domain.Security.DTO;
+using EmployeeReview.Domain.Security.Helpers;
+using EmployeeReview.Domain.Security.Services.Interfaces;
 using EmployeeReview.Infrastructure.DAO;
 using EmployeeReview.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
-namespace EmployeeReview.Domain.Services
+namespace EmployeeReview.Domain.Security.Services
 {
     public class SecurityService : ISecurityService
     {
@@ -29,16 +24,16 @@ namespace EmployeeReview.Domain.Services
             _mapper = mapper;
         }
 
-        public void Register(User user)
+        public void Register(Account account)
         {
-            var existingUser =  _dbContext.Users.SingleOrDefault(x => x.Email == user.Email);
+            var existingUser =  _dbContext.Users.SingleOrDefault(x => x.Email == account.Email);
             
             if (existingUser != null)
             {
                 throw new EmailAlreadyExistsException($"User with this e-mail already exists.");
             }
-            var userDAO = _mapper.Map<User, UserDAO>(user);
-            var (passwordHash, passwordSalt) = _securityTokenHelper.HashPassword(user.Password);
+            var userDAO = _mapper.Map<Account, UserDAO>(account);
+            var (passwordHash, passwordSalt) = _securityTokenHelper.HashPassword(account.Password);
             var employeeRole = _dbContext.Roles.Single(x => x.Name == "Employee");
 
             userDAO.Id = Guid.NewGuid();
@@ -65,7 +60,7 @@ namespace EmployeeReview.Domain.Services
                 throw new WrongCredentialsException($"Invalid e-mail or password");
             }
 
-            var user = _mapper.Map<User>(userDAO);
+            var user = _mapper.Map<Account>(userDAO);
             user.Roles = userDAO.UserRole.ConvertAll(x => _mapper.Map<Role>(x.Role));
             return _securityTokenHelper.CreateToken(user);
         }

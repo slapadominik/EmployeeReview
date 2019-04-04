@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using EmployeeReview.Domain.Entities;
+using EmployeeReview.Domain.Common;
+using EmployeeReview.Domain.Security.DTO;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace EmployeeReview.Domain.Helpers
+namespace EmployeeReview.Domain.Security.Helpers
 {
     public class SecurityHelper : ISecurityHelper
     {
@@ -19,17 +19,17 @@ namespace EmployeeReview.Domain.Helpers
         {
             _appSettings = options.Value;
         }
-        public string CreateToken(User user)
+        public string CreateToken(Account account)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_appSettings.JwtSecret);
 
             List<Claim> claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Jti, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email)
+                new Claim(JwtRegisteredClaimNames.Jti, account.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, account.Email)
             };
-            foreach (var role in user.Roles)
+            foreach (var role in account.Roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role.Name));
             }

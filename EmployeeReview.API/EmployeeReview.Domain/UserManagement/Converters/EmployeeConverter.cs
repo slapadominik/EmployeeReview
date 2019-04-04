@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using AutoMapper;
-using EmployeeReview.Domain.Converters.Interfaces;
-using EmployeeReview.Domain.Entities;
+﻿using AutoMapper;
+using EmployeeReview.Domain.Security.DTO;
+using EmployeeReview.Domain.UserManagement.Converters.Interfaces;
+using EmployeeReview.Domain.UserManagement.DTO;
 using EmployeeReview.Infrastructure.DAO;
 
-namespace EmployeeReview.Domain.Converters
+namespace EmployeeReview.Domain.UserManagement.Converters
 {
     public class EmployeeConverter : IEmployeeConverter
     {
@@ -15,9 +15,9 @@ namespace EmployeeReview.Domain.Converters
             _mapper = mapper;
         }
 
-        public Employee Convert(UserDAO user)
+        public UserDetails Convert(UserDAO user)
         {
-            Employee result = new Employee();
+            UserDetails result = new UserDetails();
             result.FirstName = user.FirstName;
             result.LastName = user.LastName;
             result.Roles = user.UserRole.ConvertAll(x => _mapper.Map<Role>(x.Role));

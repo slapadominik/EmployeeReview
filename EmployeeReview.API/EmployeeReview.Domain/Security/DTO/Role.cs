@@ -1,4 +1,4 @@
-﻿namespace EmployeeReview.Domain.Entities
+﻿namespace EmployeeReview.Domain.Security.DTO
 {
     public class Role
     {

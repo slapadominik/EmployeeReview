@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using EmployeeReview.Domain.Services.Interfaces;
+using EmployeeReview.Domain.UserManagement.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,18 +10,18 @@ namespace EmployeeReview.API.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        private readonly IEmployeeService _employeeService;
+        private readonly IUserManagementService _userManagementService;
 
-        public EmployeesController(IEmployeeService employeeService)
+        public EmployeesController(IUserManagementService userManagementService)
         {
-            _employeeService = employeeService;
+            _userManagementService = userManagementService;
         }
 
         [HttpGet]
         [Authorize(Roles = "Administrator")]
         public IActionResult GetAll()
         {
-            var employees = _employeeService.GetAll();
+            var employees = _userManagementService.GetAll();
             return Ok(employees);
         }
 
@@ -34,7 +34,7 @@ namespace EmployeeReview.API.Controllers
                 return Unauthorized();
             }
 
-            var employeeDetails =_employeeService.GetDetailsAboutMe(Guid.Parse(userIdClaim.Value));
+            var employeeDetails =_userManagementService.GetDetailsAboutMe(Guid.Parse(userIdClaim.Value));
             return Ok(employeeDetails);
         }
     }

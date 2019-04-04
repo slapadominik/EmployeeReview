@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using EmployeeReview.Domain.Converters;
-using EmployeeReview.Domain.Converters.Interfaces;
-using EmployeeReview.Domain.Helpers;
-using EmployeeReview.Domain.Services;
-using EmployeeReview.Domain.Services.Interfaces;
+using EmployeeReview.Domain.Common;
+using EmployeeReview.Domain.Security.Helpers;
+using EmployeeReview.Domain.Security.Services;
+using EmployeeReview.Domain.Security.Services.Interfaces;
+using EmployeeReview.Domain.UserManagement.Converters;
+using EmployeeReview.Domain.UserManagement.Converters.Interfaces;
+using EmployeeReview.Domain.UserManagement.Services;
+using EmployeeReview.Domain.UserManagement.Services.Interfaces;
 using EmployeeReview.Infrastructure.DbContexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -62,7 +65,7 @@ namespace EmployeeReview.API
             services.AddScoped<ISecurityService, SecurityService>();
             services.AddScoped<ISecurityHelper, SecurityHelper>();
             services.AddScoped<IEmployeeConverter, EmployeeConverter>();
-            services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddOptions();
             services.Configure<AppSettings>(Configuration.GetSection("Security"));
         }

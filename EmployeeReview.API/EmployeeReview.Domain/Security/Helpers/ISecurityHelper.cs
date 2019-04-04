@@ -1,11 +1,10 @@
-﻿using System;
-using EmployeeReview.Domain.Entities;
+﻿using EmployeeReview.Domain.Security.DTO;
 
-namespace EmployeeReview.Domain.Helpers
+namespace EmployeeReview.Domain.Security.Helpers
 {
     public interface ISecurityHelper
     {
-        string CreateToken(User user);
+        string CreateToken(Account account);
         (byte[] passwordHash, byte[] salt) HashPassword(string password);
         byte[] HashPassword(string password, byte[] salt);
         bool IsPasswordHashEqual(byte[] passwordHash1, byte[] passwordHash2);

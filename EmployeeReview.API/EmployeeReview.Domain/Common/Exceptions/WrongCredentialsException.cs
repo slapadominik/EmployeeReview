@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EmployeeReview.Domain.Exceptions
+namespace EmployeeReview.Domain.Common.Exceptions
 {
     public class WrongCredentialsException : Exception
     {
