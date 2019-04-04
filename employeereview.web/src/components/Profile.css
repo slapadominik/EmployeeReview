@@ -1,3 +1,20 @@
 .profile {
-    margin-top:200px;
+    margin-top:150px;
+}
+
+.display-3{
+    font-size: 2rem !important;
+}
+
+.display-4{
+    font-size: 1.5rem !important;
+}
+
+.badge > h6 {
+    margin: 2px !important;
+}
+
+.wtf {
+    padding-left: 0px !important;
+    list-style-position: inside;
 }

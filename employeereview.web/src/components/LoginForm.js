@@ -39,6 +39,7 @@ class Login extends Component {
             <div className="container h-100">
                 <div className="row h-100 justify-content-center align-items-center">
                     <form className="col-4">
+                        <div><h4 className="display-3 text-center mb-5">Logowanie</h4></div>
                         <div className="form-group">
                             <label htmlFor="formGroupExampleInput">E-mail</label>
                             <input type="text" className="form-control" placeholder="E-mail" value={this.state.email} onChange={this.loginOnChange}/>

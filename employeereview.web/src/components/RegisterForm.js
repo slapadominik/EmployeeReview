@@ -44,7 +44,7 @@ class RegisterForm extends Component {
                 <div className="row h-100 justify-content-center align-items-center">
                     <form className="col-4">
                         <div className="mb-4 text-center">
-                            <h3 className="display-4">Rejestracja</h3>
+                            <h3 className="display-3">Rejestracja</h3>
                         </div>
                         <div className="form-group">
                             <label htmlFor="formGroupExampleInput">Imię</label>

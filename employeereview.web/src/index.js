@@ -12,6 +12,10 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import jwt from 'jsonwebtoken';
 import { setCurrentUser } from './actions/authActions';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faPen } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faPen)
 
 
 const store = createStore(rootReducer,

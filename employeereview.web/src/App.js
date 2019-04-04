@@ -9,6 +9,8 @@ import Main from './components/Main';
 import Profile from './components/Profile';
 import RegisterForm from './components/RegisterForm';
 
+
+
 class App extends Component {
     render(){
         return (
