@@ -8,7 +8,7 @@ import Logout from './components/Logout';
 import Main from './components/Main';
 import Profile from './components/Profile';
 import RegisterForm from './components/RegisterForm';
-
+import ProfileEditForm from './components/ProfileEditForm';
 
 
 class App extends Component {
@@ -21,6 +21,7 @@ class App extends Component {
             <Route exact path="/logout" component={Logout} />
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/register" component={RegisterForm} />
+            <Route exact path="/profile/edit" component={ProfileEditForm} />
         </BrowserRouter>);
     }
 }

@@ -1,5 +1,5 @@
 .profile {
-    margin-top:150px;
+    margin-top:100px;
 }
 
 .display-3{
@@ -17,4 +17,13 @@
 .wtf {
     padding-left: 0px !important;
     list-style-position: inside;
+}
+
+.return-page{
+    margin-top:50px;
+    font-size: 1.7rem;
+}
+
+.return-page:hover{
+    cursor:pointer;
 }

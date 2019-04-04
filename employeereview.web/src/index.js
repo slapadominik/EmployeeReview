@@ -13,9 +13,9 @@ import { Provider } from 'react-redux';
 import jwt from 'jsonwebtoken';
 import { setCurrentUser } from './actions/authActions';
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPen } from '@fortawesome/free-solid-svg-icons'
+import { faPen, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faPen)
+library.add(faPen, faArrowLeft);
 
 
 const store = createStore(rootReducer,
