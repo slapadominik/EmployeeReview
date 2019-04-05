@@ -2,27 +2,26 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {BASE_URL} from '../constants';
 import { connect } from 'react-redux';
-import jwt_decode from 'jwt-decode'
 
 class Main extends Component {
-
     componentDidMount(){
-        var decoded = jwt_decode(this.props.token);
-        if (decoded.role==='Administrator'){
-            axios.get(BASE_URL+'/api/employees', { headers: {"Authorization" : `Bearer ${this.props.token}`}})
-        .then(response => {
-            if (response.status===200){
-                console.log(response.data);
-            }
-        }).catch(error => {
-            if (error.response) {
-                alert('Unauthorized');
-            }
-            else{
-                console.log(error);
-            }
-        });
+        console.log(this.props.user)
+        if (this.props.user.role==="Administrator"){
+            axios.get(BASE_URL+'/users')
+            .then(response => {
+                if (response.status===200){
+                    console.log(response.data);
+                }
+            }).catch(error => {
+                if (error.response) {
+                    alert('Unauthorized');
+                }
+                else{
+                    console.log(error);
+                }
+            });
         }
+       
     }
 
     render() {
@@ -33,8 +32,10 @@ class Main extends Component {
         );
     }
 }
-const mapStateToProps = state => ({
-    token: state.auth.token
-});
 
+function mapStateToProps(state){
+    return {
+        user: state.auth.user
+    }
+}
 export default connect(mapStateToProps, null)(Main)

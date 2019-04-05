@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using EmployeeReview.API.DTO;
-using EmployeeReview.Domain.Entities;
+using EmployeeReview.Domain.Security.DTO;
 
 namespace EmployeeReview.API.Converters
 {
@@ -8,9 +8,8 @@ namespace EmployeeReview.API.Converters
     {
         public UserMappingProfile()
         {
-            CreateMap<Registration, User>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.Superior, opt => opt.Ignore());
+            CreateMap<Registration, Account>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
         }
     }
 }

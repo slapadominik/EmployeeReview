@@ -1,0 +1,29 @@
+.profile {
+    margin-top:100px;
+}
+
+.display-3{
+    font-size: 2rem !important;
+}
+
+.display-4{
+    font-size: 1.5rem !important;
+}
+
+.badge > h6 {
+    margin: 2px !important;
+}
+
+.wtf {
+    padding-left: 0px !important;
+    list-style-position: inside;
+}
+
+.return-page{
+    margin-top:50px;
+    font-size: 1.7rem;
+}
+
+.return-page:hover{
+    cursor:pointer;
+}

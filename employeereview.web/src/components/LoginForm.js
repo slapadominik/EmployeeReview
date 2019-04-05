@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import {BASE_URL} from '../constants';
 import '../App.css';
 import { connect } from 'react-redux';
-import { login} from '../actions/auth';
+import { login} from '../actions/authActions';
+
 
 class Login extends Component {
     constructor(props){
@@ -16,40 +15,31 @@ class Login extends Component {
 
     submit = (e) => {
         e.preventDefault();
-        axios.post(BASE_URL+'/api/security/login', {
-            email: this.state.email,
-            password: this.state.password
-        })
-        .then(response => {
-            if (response.status===200){
-                this.props.login(response.data);        
-                localStorage.setItem('jwtToken', response.data);
-                console.log('Login successful');  
+        this.props.login(this.state)
+        .then(
+            resp => {
                 this.props.history.push('/')
-            }
-        }).catch(error => {
-            if (error.response) {
-                alert(error.response.data);
-            }
-            else{
-                console.log(error);
-            }
-        });
+            });
     }
 
     passwordOnChange = (e) => {
         this.setState({password: e.target.value});
     }
 
+    registerOnClick = (e) => {
+        e.preventDefault();
+        this.props.history.push('/register');
+    }
+
     loginOnChange = (e) => {
         this.setState({email: e.target.value});
     }
-
     render() {
         return (
             <div className="container h-100">
                 <div className="row h-100 justify-content-center align-items-center">
                     <form className="col-4">
+                        <div><h4 className="display-3 text-center mb-5">Logowanie</h4></div>
                         <div className="form-group">
                             <label htmlFor="formGroupExampleInput">E-mail</label>
                             <input type="text" className="form-control" placeholder="E-mail" value={this.state.email} onChange={this.loginOnChange}/>
@@ -58,8 +48,13 @@ class Login extends Component {
                             <label htmlFor="formGroupExampleInput2">Hasło</label>
                             <input type="password" className="form-control"  placeholder="Hasło" value={this.state.password} onChange={this.passwordOnChange}/>
                         </div>
-                         <input type="submit" value="Login" onClick={this.submit} />
-                    </form>
+                         <input type="submit" value="Login" onClick={this.submit} className="btn btn-danger"/> 
+                         <div className="float-right">
+                            <button className="btn btn-outline-danger" onClick={this.registerOnClick}>
+                                Zarejestruj się
+                            </button>
+                        </div>                                                                                          
+                    </form>                         
             </div>
         </div>
         )

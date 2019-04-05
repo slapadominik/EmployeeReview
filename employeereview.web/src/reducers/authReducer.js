@@ -1,26 +1,19 @@
-import { LOGIN,  LOGOUT } from '../actions/types';
+import {SET_CURRENT_USER} from '../actions/types';
+import isEmpty from 'lodash/isEmpty';
 
 const initialState = {
-    token: null
+    isAuthenticated: false,
+    user: {}
 }
 
-export default function (state = initialState, action) {
+export default (state = initialState, action = {}) => {
     switch(action.type) {
-        case LOGIN: {
+        case SET_CURRENT_USER:
             return {
                 ...state,
-                token: action.payload
-            }
-        }
-
-        case LOGOUT: {
-            return {
-                ...state,
-                token: null
-            }
-        }
-
-        default:
-            return state;
+                isAuthenticated: !isEmpty(action.user),
+                user: action.user
+            };
+        default: return state;
     }
 }

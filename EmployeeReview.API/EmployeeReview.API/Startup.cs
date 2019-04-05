@@ -4,15 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using EmployeeReview.Domain.Converters;
-using EmployeeReview.Domain.Converters.Interfaces;
-using EmployeeReview.Domain.Helpers;
-using EmployeeReview.Domain.Services;
-using EmployeeReview.Domain.Services.Interfaces;
-using EmployeeReview.Infrastructure.DbContexts;
+using EmployeeReview.Domain.Common;
+using EmployeeReview.Domain.Common.Persistence;
+using EmployeeReview.Domain.Common.Security;
+using EmployeeReview.Domain.Security.Helpers;
+using EmployeeReview.Domain.Security.Services;
+using EmployeeReview.Domain.Security.Services.Interfaces;
+using EmployeeReview.Domain.UserManagement.Converters;
+using EmployeeReview.Domain.UserManagement.Converters.Interfaces;
+using EmployeeReview.Domain.UserManagement.Repositories;
+using EmployeeReview.Domain.UserManagement.Repositories.Interfaces;
+using EmployeeReview.Domain.UserManagement.Services;
+using EmployeeReview.Domain.UserManagement.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +28,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace EmployeeReview.API
 {
@@ -62,7 +70,18 @@ namespace EmployeeReview.API
             services.AddScoped<ISecurityService, SecurityService>();
             services.AddScoped<ISecurityHelper, SecurityHelper>();
             services.AddScoped<IEmployeeConverter, EmployeeConverter>();
-            services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IUserManagementService, UserManagementService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddHttpContextAccessor();
+            services.AddScoped<IPrincipalHelper>(provider =>
+            {
+                var context = provider.GetService<IHttpContextAccessor>();
+                return new PrincipalHelper{Principal = context.HttpContext.User };
+            });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "EmployeeReview.API", Version = "v1" });
+            });
             services.AddOptions();
             services.Configure<AppSettings>(Configuration.GetSection("Security"));
         }
@@ -94,6 +113,11 @@ namespace EmployeeReview.API
                 .AllowAnyHeader());
             app.UseHttpsRedirection();
             app.UseAuthentication();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "EmployeeReview.API V1");
+            });
             app.UseMvc();
         }
     }

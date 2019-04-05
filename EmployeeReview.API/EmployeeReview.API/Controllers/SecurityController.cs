@@ -1,9 +1,9 @@
 ﻿using System;
 using AutoMapper;
 using EmployeeReview.API.DTO;
-using EmployeeReview.Domain.Entities;
-using EmployeeReview.Domain.Exceptions;
-using EmployeeReview.Domain.Services.Interfaces;
+using EmployeeReview.Domain.Common.Exceptions;
+using EmployeeReview.Domain.Security.DTO;
+using EmployeeReview.Domain.Security.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeReview.API.Controllers
@@ -42,7 +42,7 @@ namespace EmployeeReview.API.Controllers
         [HttpPost("register")]
         public IActionResult Register([FromBody] Registration registration)
         {
-            var user = _mapper.Map<Registration, User>(registration);
+            var user = _mapper.Map<Registration, Account>(registration);
             try
             {
                 _securityService.Register(user);

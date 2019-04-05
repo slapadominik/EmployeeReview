@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 import {BASE_URL} from '../constants';
+import './Profile.css';
+import user from '../images/user.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class Profile extends Component {
     constructor(props){
@@ -14,8 +16,7 @@ class Profile extends Component {
         };
     }
     componentDidMount(){
-        const decodedToken = jwt_decode(this.props.token);
-        axios.get(BASE_URL+'/api/employees/'+decodedToken.jti, { headers: {"Authorization" : `Bearer ${this.props.token}`}})
+        axios.get(BASE_URL+`/users/${this.props.user.jti}`)
         .then(response => {
             if (response.status===200){
                 console.log(response.data)
@@ -32,32 +33,62 @@ class Profile extends Component {
         });
     }  
 
-    mapRoles = () => {
-        return this.state.roles.map((x,i) => <li key={i}><h4>{x.name}</h4></li>)
+    editOnClick = e => {
+        this.props.history.push('/profile/edit');
     }
+
+    mapRoles = () => {
+        return this.state.roles.map((x,i) => <li className="badge badge-primary mr-2 text-center" key={i}><h6>{x.name}</h6></li>)
+    }
+
+    returnBackOnClick = e => {
+        this.props.history.goBack();
+    }
+
     render() {
         return (
-            <div className="container h-100">
-                <div className="row justify-content-center align-items-center">
-                    <h4>Imię: {this.state.firstName}</h4>
+            <div className="container justify-content-center">
+                 <FontAwesomeIcon icon="arrow-left" className="return-page" onClick={this.returnBackOnClick  }/>
+                <div className="row profile">
+                    <div className="col-md-4 offset-md-4 text-center">
+                        <h4 className="display-3">Twój profil</h4> 
+                    </div>
                 </div>
-                <div className="row justify-content-center align-items-center">
-                    <h4>Nazwisko: {this.state.lastName}</h4>
+                <div className="row mt-4">
+                    <div className="col-md-4 offset-md-4 text-center">
+                        <img src={user} alt="user"/>
+                    </div>                  
                 </div>
-                <div className="row justify-content-center align-items-center">                    
-                    <h4>Role</h4>
-                </div>    
-                <div className="row justify-content-center align-items-center">                    
-                    <ul>
-                        {this.mapRoles()}
-                    </ul> 
-                </div>          
+                <div className="row mt-4">
+                    <div className="col-md-4 offset-md-4 text-center">
+                        <h4 className="display-3">{this.state.firstName} {this.state.lastName}</h4> 
+                    </div>
+                </div> 
+                <div className="row mt-3">    
+                    <div className="col-md-4 offset-md-4 text-center">  
+                        <ul className="wtf">
+                            {this.mapRoles()}
+                        </ul> 
+                    </div>                
+                </div>
+                <div className="row mt-2">
+                    <div className="col-md-4 offset-md-4 text-center">
+                        <h4 className="display-4">Email: {this.props.user.email}</h4> 
+                    </div>
+                </div> 
+                <div className="row mt-5">
+                    <div className="col-md-4 offset-md-4 text-center">
+                        <button className="btn btn-danger" onClick={this.editOnClick}><FontAwesomeIcon icon="pen"/> Edytuj profil</button>
+                    </div>
+                </div>              
             </div>
         );
     }
 }
-const mapStateToProps = state => ({
-    token: state.auth.token
-});
 
+function mapStateToProps(state){
+    return {
+        user: state.auth.user
+    }
+}
 export default connect(mapStateToProps, null)(Profile)
