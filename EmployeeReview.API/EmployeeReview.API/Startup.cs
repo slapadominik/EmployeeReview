@@ -28,6 +28,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace EmployeeReview.API
 {
@@ -77,6 +78,10 @@ namespace EmployeeReview.API
                 var context = provider.GetService<IHttpContextAccessor>();
                 return new PrincipalHelper{Principal = context.HttpContext.User };
             });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "EmployeeReview.API", Version = "v1" });
+            });
             services.AddOptions();
             services.Configure<AppSettings>(Configuration.GetSection("Security"));
         }
@@ -108,6 +113,11 @@ namespace EmployeeReview.API
                 .AllowAnyHeader());
             app.UseHttpsRedirection();
             app.UseAuthentication();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "EmployeeReview.API V1");
+            });
             app.UseMvc();
         }
     }
