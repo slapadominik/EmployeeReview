@@ -18,6 +18,7 @@ namespace EmployeeReview.Domain.UserManagement.Converters
         public UserDetails Convert(UserDAO user)
         {
             UserDetails result = new UserDetails();
+            result.Id = user.Id;
             result.FirstName = user.FirstName;
             result.LastName = user.LastName;
             result.Roles = user.UserRole.ConvertAll(x => _mapper.Map<Role>(x.Role));
