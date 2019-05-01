@@ -13,6 +13,9 @@ class UserDetailView extends Component {
         this.props.history.goBack();
     }
 
+    editRolesOnClick = e => {
+        this.props.history.push(`/user/${this.props.id}/roles`);
+    }
 
     render(){
         return(
@@ -42,7 +45,7 @@ class UserDetailView extends Component {
                 </div>
                 <div className="row mt-5">
                     <div className="col-md-4 offset-md-4 text-center">
-                        <button className="btn btn-danger"><FontAwesomeIcon icon="pen"/>Zarządzaj rolami</button>
+                        <button className="btn btn-danger" onClick={this.editRolesOnClick}><FontAwesomeIcon icon="pen"/>Zarządzaj rolami</button>
                     </div>
                 </div>   
                 <div className="row mt-2">

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using EmployeeReview.API.Consts;
 using EmployeeReview.Domain.Common.Exceptions;
 using EmployeeReview.Domain.UserManagement.DTO;
 using EmployeeReview.Domain.UserManagement.Services.Interfaces;
@@ -23,7 +22,7 @@ namespace EmployeeReview.API.Features.Users
         }
 
         [HttpGet]
-        [Authorize(Roles = Roles.Administrator)]
+        [Authorize(Roles = Consts.Roles.Administrator)]
         public IActionResult GetAll()
         {
             var employees = _userManagementService.GetAll();
@@ -62,7 +61,7 @@ namespace EmployeeReview.API.Features.Users
         }
 
         [HttpPut("{userId:guid}/roles")]
-        [Authorize(Roles = Roles.Administrator)]
+        [Authorize(Roles = Consts.Roles.Administrator)]
         public IActionResult EditUserRoles([FromRoute] Guid userId, [FromBody] IEnumerable<Role> roles)
         {
             try

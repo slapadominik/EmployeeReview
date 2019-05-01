@@ -12,6 +12,7 @@ namespace EmployeeReview.API.Installers
         {
             services.AddTransient<ISecurityService, SecurityService>();
             services.AddTransient<IUserManagementService, UserManagementService>();
+            services.AddTransient<IRolesService, RolesService>();
         }
     }
 }

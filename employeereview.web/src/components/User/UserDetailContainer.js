@@ -9,7 +9,7 @@ class UserDetailContainer extends Component {
     render(){
         return(
             <div>
-                <UserDetailView firstName={this.props.user.firstName} lastName={this.props.user.lastName} roles={this.props.user.roles}/>
+                <UserDetailView id={this.props.user.id} firstName={this.props.user.firstName} lastName={this.props.user.lastName} roles={this.props.user.roles}/>
             </div>
         );
     }

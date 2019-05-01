@@ -11,6 +11,7 @@ import RegisterForm from './components/RegisterForm';
 import ProfileEditForm from './components/ProfileEditForm';
 import UserDetailContainer from './components/User/UserDetailContainer';
 import WithAuthorization from './helpers/WithAuthorization';
+import EditRoleForm from './components/User/Roles/EditRoleForm';
 
 class Routing extends Component {
     render(){
@@ -24,6 +25,7 @@ class Routing extends Component {
             <Route exact path="/register" component={RegisterForm} />
             <Route exact path="/profile/edit" component={ProfileEditForm} />
             <Route exact path="/user/:id" component={UserDetailContainer} />
+            <Route exact path="/user/:id/roles" component={EditRoleForm} />
         </BrowserRouter>);
     }
 }

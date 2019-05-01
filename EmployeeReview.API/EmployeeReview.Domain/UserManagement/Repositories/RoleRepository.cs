@@ -19,5 +19,10 @@ namespace EmployeeReview.Domain.UserManagement.Repositories
         {
             return _applicationDbContext.Roles.Where(x => name.Contains(x.Name));
         }
+
+        public IEnumerable<RoleDAO> Get()
+        {
+            return _applicationDbContext.Roles;
+        }
     }
 }
