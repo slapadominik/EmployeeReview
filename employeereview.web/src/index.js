@@ -1,14 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import Routing from './Routing';
 import * as serviceWorker from './serviceWorker';
 import "bootstrap/dist/css/bootstrap.css";
 import setAuthorizationToken from './helpers/setAuthorizationToken';
-import { createStore, applyMiddleware} from 'redux';
-import rootReducer from './reducers/rootReducer';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import thunk from 'redux-thunk';
+import store from './store';
 import { Provider } from 'react-redux';
 import jwt from 'jsonwebtoken';
 import { setCurrentUser } from './actions/authActions';
@@ -16,13 +13,6 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faPen, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faPen, faArrowLeft);
-
-
-const store = createStore(rootReducer,
-    composeWithDevTools(
-        applyMiddleware(thunk)
-    )
-);
 
 
 if (localStorage.jwtToken){
@@ -33,7 +23,7 @@ if (localStorage.jwtToken){
 
 ReactDOM.render(
         <Provider store={store}>
-            <App />
+            <Routing />
         </Provider>, 
         document.getElementById('root'));
 

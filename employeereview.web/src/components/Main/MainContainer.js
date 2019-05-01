@@ -1,36 +1,30 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import {BASE_URL} from '../../constants';
 import { connect } from 'react-redux';
-import MainAdminView from './MainAdminView';
 import { setUsers} from '../../actions/userActions';
+import {ADMIN_ROLE, HR_ROLE, EMPLOYEE_ROLE} from '../../constants';
+import MainAdminContainer from './MainAdminContainer';
+import MainEmployeeContainer from './MainEmployeeContainer';
 
 class MainContainer extends Component {
     constructor(props){
         super(props);
         this.state = {
-            users: []
+            isAdmin: false,
+            isHR: false,
+            isEmployee: false
         };
     }
 
     componentDidMount(){
-        console.log(this.props.user)
-        if (this.props.user.role){
-            if (this.props.user.role.includes("Administrator")){
-                axios.get(BASE_URL+'/users')
-                .then(response => {
-                    if (response.status===200){
-                        this.setState({users: response.data});
-                        this.props.setUsers(response.data);
-                    }
-                }).catch(error => {
-                    if (error.response) {
-                        alert('Unauthorized');
-                    }
-                    else{
-                        console.log(error);
-                    }
-                });
+        if (this.props.isUserAuthenticated){
+            if (this.props.user.role.includes(ADMIN_ROLE)){
+                this.setState({isAdmin: true});
+            }
+            else if (this.props.user.role.includes(HR_ROLE)){
+                this.setState({isHR: true});
+            }
+            else if (this.props.user.role.includes(EMPLOYEE_ROLE)){
+                this.setState({isEmployee: true});
             }
         }      
     }
@@ -40,7 +34,8 @@ class MainContainer extends Component {
     render() {
         return (
             <div className="container">
-                {this.props.user.role.includes("Administrator") && <MainAdminView users={this.state.users}/> }
+                {this.state.isAdmin && <MainAdminContainer/> }
+                {this.state.isEmployee && <MainEmployeeContainer/> }
             </div>
         );
     }
@@ -48,7 +43,8 @@ class MainContainer extends Component {
 
 function mapStateToProps(state){
     return {
-        user: state.auth.user
+        user: state.auth.user,
+        isUserAuthenticated: state.auth.isAuthenticated
     }
 }
 export default connect(mapStateToProps, { setUsers })(MainContainer)

@@ -10,13 +10,14 @@ import Profile from './components/Profile';
 import RegisterForm from './components/RegisterForm';
 import ProfileEditForm from './components/ProfileEditForm';
 import UserDetailContainer from './components/User/UserDetailContainer';
+import WithAuthorization from './helpers/WithAuthorization';
 
-class App extends Component {
+class Routing extends Component {
     render(){
         return (
         <BrowserRouter>
             <Navbar/>
-            <Route exact path="/" component={MainContainer} />
+            <Route exact path="/" component={WithAuthorization(MainContainer)} />
             <Route exact path="/login" component={LoginForm} />
             <Route exact path="/logout" component={Logout} />
             <Route exact path="/profile" component={Profile} />
@@ -27,4 +28,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default Routing;
