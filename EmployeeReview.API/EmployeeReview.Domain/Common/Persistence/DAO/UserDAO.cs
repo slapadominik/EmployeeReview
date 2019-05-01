@@ -29,6 +29,13 @@ namespace EmployeeReview.Domain.Common.Persistence.DAO
         [Required]
         public string LastName { get; set; }
 
+        [Required]
+        public char Sex { get; set; }  
+        
+        public JobTitleDAO Title { get; set; }
+        public int TitleId { get; set; }
+
         public List<UserRoleDAO> UserRole { get; } = new List<UserRoleDAO>();
+        public ICollection<ReviewDAO> Reviews { get; set; }
     }
 }

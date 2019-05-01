@@ -19,7 +19,7 @@ namespace EmployeeReview.Domain.UserManagement.Repositories
 
         public IEnumerable<UserDAO> GetAllUsersDetails()
         {
-            return _dbContext.Users.Include(x => x.UserRole).ThenInclude(x => x.Role);
+            return _dbContext.Users.Include(x => x.Title).Include(x => x.UserRole).ThenInclude(x => x.Role);
         }
 
         public UserDAO GetUserDetailById(Guid userId)

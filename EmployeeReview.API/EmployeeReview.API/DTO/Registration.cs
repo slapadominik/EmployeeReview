@@ -6,5 +6,7 @@
         public string Password { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public char Sex { get; set; }
+        public int TitleId { get; set; }
     }
 }

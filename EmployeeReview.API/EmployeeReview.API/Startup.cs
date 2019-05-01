@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using EmployeeReview.API.Installers;
 using EmployeeReview.Domain.Common;
 using EmployeeReview.Domain.Common.Persistence;
 using EmployeeReview.Domain.Common.Security;
@@ -48,7 +49,6 @@ namespace EmployeeReview.API
             services.AddAutoMapper();
             services.AddDbContext<ApplicationDbContext>(opt =>
                 opt.UseSqlServer(Configuration["Security:LocalDatabase"]));
-
             services.AddAuthentication(x =>
                 {
                     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -66,21 +66,27 @@ namespace EmployeeReview.API
                         ValidateAudience = false
                     };
                 });
-
-            services.AddScoped<ISecurityService, SecurityService>();
-            services.AddScoped<ISecurityHelper, SecurityHelper>();
-            services.AddScoped<IEmployeeConverter, EmployeeConverter>();
-            services.AddScoped<IUserManagementService, UserManagementService>();
+            services.InstallHelpers();
+            services.InstallServices();
+            services.AddScoped<IRoleConverter, RoleConverter>();
+            services.AddScoped<IEmployeeConverter, EmployeeConverter>();           
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddHttpContextAccessor();
-            services.AddScoped<IPrincipalHelper>(provider =>
-            {
-                var context = provider.GetService<IHttpContextAccessor>();
-                return new PrincipalHelper{Principal = context.HttpContext.User };
-            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "EmployeeReview.API", Version = "v1" });
+
+                c.AddSecurityDefinition("Bearer",
+                    new ApiKeyScheme
+                    {
+                        In = "header",
+                        Description = "Please enter into field the word 'Bearer' following by space and JWT",
+                        Name = "Authorization",
+                        Type = "apiKey"
+                    });
+                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> {
+                    { "Bearer", Enumerable.Empty<string>() },
+                });
             });
             services.AddOptions();
             services.Configure<AppSettings>(Configuration.GetSection("Security"));

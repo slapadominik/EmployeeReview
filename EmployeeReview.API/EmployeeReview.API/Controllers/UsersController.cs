@@ -42,7 +42,6 @@ namespace EmployeeReview.API.Controllers
             }
         }
 
-
         [HttpPut("{id:guid}")]
         public IActionResult EditPersonalInformation([FromRoute] Guid id, [FromBody]UserPersonalInformation userInfo)
         {

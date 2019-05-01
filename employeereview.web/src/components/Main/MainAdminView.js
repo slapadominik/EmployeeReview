@@ -9,7 +9,7 @@ export default class MainContainer extends Component {
 
     render(){
         return (
-        <div>
+        <div className="container">
             <div className="row justify-content-md-center">
                 <div className="col-md-auto">
                     <h3>Użytkownicy</h3>

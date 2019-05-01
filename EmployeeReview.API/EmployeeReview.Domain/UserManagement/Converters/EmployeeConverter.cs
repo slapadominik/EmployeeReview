@@ -9,19 +9,24 @@ namespace EmployeeReview.Domain.UserManagement.Converters
     public class EmployeeConverter : IEmployeeConverter
     {
         private readonly IMapper _mapper;
+        private readonly IRoleConverter _roleConverter;
 
-        public EmployeeConverter(IMapper mapper)
+        public EmployeeConverter(IRoleConverter roleConverter)
         {
-            _mapper = mapper;
+            _roleConverter = roleConverter;
+            var mapperConfig = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<UserDAO, UserDetails>()
+                    .ForMember(x => x.Roles, opt => opt.Ignore());
+            });
+            _mapper = mapperConfig.CreateMapper();
         }
 
         public UserDetails Convert(UserDAO user)
         {
-            UserDetails result = new UserDetails();
-            result.Id = user.Id;
-            result.FirstName = user.FirstName;
-            result.LastName = user.LastName;
-            result.Roles = user.UserRole.ConvertAll(x => _mapper.Map<Role>(x.Role));
+            UserDetails result = _mapper.Map<UserDetails>(user);
+            result.Roles = user.UserRole.ConvertAll(x => _roleConverter.Convert(x.Role));
+            result.Title = user.Title.Name;
             return result;
         }
     }

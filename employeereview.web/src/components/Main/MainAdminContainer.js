@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import MainAdminView from './MainAdminView';
 import { setUsers} from '../../actions/userActions';
 
-class MainContainer extends Component {
+class MainAdminContainer extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -50,4 +50,4 @@ function mapStateToProps(state){
         user: state.auth.user
     }
 }
-export default connect(mapStateToProps, { setUsers })(MainContainer)
+export default connect(mapStateToProps, { setUsers })(MainAdminContainer)

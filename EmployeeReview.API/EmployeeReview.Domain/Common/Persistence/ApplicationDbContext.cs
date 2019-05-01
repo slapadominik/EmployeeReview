@@ -1,4 +1,6 @@
 ﻿
+using EmployeeReview.Domain.Common.Persistence.DataInit;
+using EmployeeReview.Domain.Common.Persistence.DAO;
 using Microsoft.EntityFrameworkCore;
 using RoleDAO = EmployeeReview.Domain.Common.Persistence.DAO.RoleDAO;
 using UserDAO = EmployeeReview.Domain.Common.Persistence.DAO.UserDAO;
@@ -34,13 +36,9 @@ namespace EmployeeReview.Domain.Common.Persistence
                 .WithMany(t => t.UserRole)
                 .HasForeignKey(pt => pt.RoleId);
 
-            modelBuilder.Entity<RoleDAO>().HasData(new RoleDAO[]
-            {
-                new RoleDAO{Id = 1, Name = "Administrator"},
-                new RoleDAO{Id = 2, Name = "HR"},
-                new RoleDAO{Id = 3, Name = "Supervisor"},
-                new RoleDAO{Id = 4, Name = "Employee"}
-            });
+            modelBuilder.InitRoles();
+            modelBuilder.InitJobTitles();
+            modelBuilder.InitAdmin();
         }
     }
 }
