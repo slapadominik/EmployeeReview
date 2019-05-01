@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EmployeeReview.API.DTO;
+using EmployeeReview.API.Features.Security.DTO;
 using EmployeeReview.Domain.Security.DTO;
 
 namespace EmployeeReview.API.Converters

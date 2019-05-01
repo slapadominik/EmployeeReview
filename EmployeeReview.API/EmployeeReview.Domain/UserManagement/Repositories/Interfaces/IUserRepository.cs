@@ -7,6 +7,8 @@ namespace EmployeeReview.Domain.UserManagement.Repositories.Interfaces
     public interface IUserRepository
     {
         IEnumerable<UserDAO> GetAllUsersDetails();
+
+        UserDAO GetUserWithRolesById(Guid userId);
         UserDAO GetUserDetailById(Guid userId);
         int SaveChanges();
     }

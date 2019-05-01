@@ -35,7 +35,7 @@ namespace EmployeeReview.Domain.Common.Persistence.DAO
         public JobTitleDAO Title { get; set; }
         public int TitleId { get; set; }
 
-        public List<UserRoleDAO> UserRole { get; } = new List<UserRoleDAO>();
+        public List<UserRoleDAO> UserRole { get; set; } = new List<UserRoleDAO>();
         public ICollection<ReviewDAO> Reviews { get; set; }
     }
 }

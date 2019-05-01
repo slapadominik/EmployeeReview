@@ -1,12 +1,14 @@
 ﻿using System;
-using System.Linq;
-using EmployeeReview.API.DTO;
+using System.Collections.Generic;
+using EmployeeReview.API.Consts;
 using EmployeeReview.Domain.Common.Exceptions;
+using EmployeeReview.Domain.UserManagement.DTO;
 using EmployeeReview.Domain.UserManagement.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UserPersonalInformation = EmployeeReview.API.DTO.UserPersonalInformation;
 
-namespace EmployeeReview.API.Controllers
+namespace EmployeeReview.API.Features.Users
 {
     [Route("api/[controller]")]
     [Authorize]
@@ -21,7 +23,7 @@ namespace EmployeeReview.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = Roles.Administrator)]
         public IActionResult GetAll()
         {
             var employees = _userManagementService.GetAll();
@@ -38,7 +40,7 @@ namespace EmployeeReview.API.Controllers
             }
             catch (UnauthorizedOperationException ex)
             {
-                return Unauthorized();
+                return Unauthorized(ex.Message);
             }
         }
 
@@ -55,8 +57,24 @@ namespace EmployeeReview.API.Controllers
             }
             catch (UnauthorizedOperationException ex)
             {
-                return Unauthorized();
+                return Unauthorized(ex.Message);
             }
         }
+
+        [HttpPut("{userId:guid}/roles")]
+        [Authorize(Roles = Roles.Administrator)]
+        public IActionResult EditUserRoles([FromRoute] Guid userId, [FromBody] IEnumerable<Role> roles)
+        {
+            try
+            {
+                _userManagementService.EditUserRoles(userId, roles);
+                return Ok();
+            }
+            catch (UnauthorizedOperationException ex)
+            {
+                return Unauthorized(ex.Message);
+            }
+        }
+
     }
 }

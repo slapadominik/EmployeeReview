@@ -10,5 +10,6 @@ namespace EmployeeReview.Domain.UserManagement.Services.Interfaces
         IEnumerable<UserDetails> GetAll();
         UserDetails GetDetailsAboutMe(Guid userId);
         void UpdatePersonalInformation(UserPersonalInformation user);
+        void EditUserRoles(Guid userId, IEnumerable<Role> roles);
     }
 }

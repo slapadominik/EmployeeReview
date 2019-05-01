@@ -1,4 +1,4 @@
-﻿namespace EmployeeReview.API.DTO
+﻿namespace EmployeeReview.API.Features.Security.DTO
 {
     public class Registration
     {

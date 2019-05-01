@@ -22,9 +22,14 @@ namespace EmployeeReview.Domain.UserManagement.Repositories
             return _dbContext.Users.Include(x => x.Title).Include(x => x.UserRole).ThenInclude(x => x.Role);
         }
 
+        public UserDAO GetUserWithRolesById(Guid userId)
+        {
+            return _dbContext.Users.Include(x => x.UserRole).ThenInclude(x => x.Role).SingleOrDefault(x => x.Id == userId);
+        }
+
         public UserDAO GetUserDetailById(Guid userId)
         {
-            return _dbContext.Users.Include(x => x.UserRole).ThenInclude(x => x.Role).Single(x => x.Id == userId);            
+            return _dbContext.Users.Include(x => x.Title).Include(x => x.UserRole).ThenInclude(x => x.Role).Single(x => x.Id == userId);            
         }
 
         public int SaveChanges()
