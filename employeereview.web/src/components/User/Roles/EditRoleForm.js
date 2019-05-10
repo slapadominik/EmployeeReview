@@ -61,10 +61,14 @@ class EditRoleForm extends Component {
     
     render() {
         return(
-                <div className="container justify-content-center">
-                    <FontAwesomeIcon icon="arrow-left" className="return-page" onClick={this.returnBackOnClick  }/>
+            <div className="container h-50">
+                <FontAwesomeIcon icon="arrow-left" className="return-page" onClick={this.returnBackOnClick  }/>
+                 <div className="row h-100 justify-content-center align-items-center">
                     <Form>
-                    <div key={`custom-inline-checkbox`} className="col-md-8 offset-md-2 text-center">
+                    <div className="mb-4 text-center">
+                            <h3 className="display-3">Edycja ról użytkownika</h3>
+                        </div>
+                    <div key={`custom-inline-checkbox`} className="col-md-12 text-center">
                         {this.state.allRoles.map((role, key) => (
                             <Form.Check
                             key={key}
@@ -87,6 +91,7 @@ class EditRoleForm extends Component {
                         </div>
                     </Form>                       
                 </div>
+            </div>
         )
     };
 }

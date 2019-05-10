@@ -48,7 +48,7 @@ class RegisterForm extends Component {
 
     render() {
         return (
-            <div className="container h-100">
+            <div className="container h-75">
              <FontAwesomeIcon icon="arrow-left" className="return-page" onClick={this.returnBackOnClick  }/>
                 <div className="row h-100 justify-content-center align-items-center">
                     <form className="col-4">
