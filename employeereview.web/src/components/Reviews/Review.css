@@ -1,0 +1,3 @@
+.card:hover, .card:focus {
+    cursor: default;
+}

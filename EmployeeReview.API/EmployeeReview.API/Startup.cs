@@ -2,32 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using EmployeeReview.API.Installers;
 using EmployeeReview.Domain.Common;
 using EmployeeReview.Domain.Common.Persistence;
-using EmployeeReview.Domain.Common.Security;
-using EmployeeReview.Domain.Security.Helpers;
-using EmployeeReview.Domain.Security.Services;
-using EmployeeReview.Domain.Security.Services.Interfaces;
 using EmployeeReview.Domain.UserManagement.Converters;
 using EmployeeReview.Domain.UserManagement.Converters.Interfaces;
 using EmployeeReview.Domain.UserManagement.Repositories;
 using EmployeeReview.Domain.UserManagement.Repositories.Interfaces;
-using EmployeeReview.Domain.UserManagement.Services;
-using EmployeeReview.Domain.UserManagement.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -68,9 +57,9 @@ namespace EmployeeReview.API
                 });
             services.InstallHelpers();
             services.InstallServices();
-            services.AddScoped<IRoleConverter, RoleConverter>();
-            services.AddScoped<IEmployeeConverter, EmployeeConverter>();           
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.InstallRepositories();
+            services.InstallConverters();
+            
             services.AddHttpContextAccessor();
             services.AddSwaggerGen(c =>
             {

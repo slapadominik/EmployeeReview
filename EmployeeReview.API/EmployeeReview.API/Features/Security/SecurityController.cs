@@ -1,12 +1,13 @@
 ﻿using System;
 using AutoMapper;
 using EmployeeReview.API.DTO;
+using EmployeeReview.API.Features.Security.DTO;
 using EmployeeReview.Domain.Common.Exceptions;
 using EmployeeReview.Domain.Security.DTO;
 using EmployeeReview.Domain.Security.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EmployeeReview.API.Controllers
+namespace EmployeeReview.API.Features.Security
 {
     [Route("api/[controller]")]
     [ApiController]

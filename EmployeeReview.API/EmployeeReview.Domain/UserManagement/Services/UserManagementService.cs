@@ -16,12 +16,16 @@ namespace EmployeeReview.Domain.UserManagement.Services
         private readonly IEmployeeConverter _employeeConverter;
         private readonly IUserRepository _userRepository;
         private readonly IPrincipalHelper _principalHelper;
+        private readonly IRoleRepository _roleRepository;
+        private readonly IUserRoleDaoConverter _userRoleDaoConverter;
 
-        public UserManagementService(IEmployeeConverter employeeConverter, IUserRepository userRepository, IPrincipalHelper principalHelper)
+        public UserManagementService(IEmployeeConverter employeeConverter, IUserRepository userRepository, IPrincipalHelper principalHelper, IRoleRepository roleRepository, IUserRoleDaoConverter userRoleDaoConverter)
         {
             _employeeConverter = employeeConverter;
             _userRepository = userRepository;
             _principalHelper = principalHelper;
+            _roleRepository = roleRepository;
+            _userRoleDaoConverter = userRoleDaoConverter;
         }
 
         public IEnumerable<UserDetails> GetAll()
@@ -38,10 +42,6 @@ namespace EmployeeReview.Domain.UserManagement.Services
         public UserDetails GetDetailsAboutMe(Guid userId)
         {
             var loggedUserId = _principalHelper.Principal.Claims.SingleOrDefault(x => x.Type == "jti");
-            if (Guid.Parse(loggedUserId.Value) != userId)
-            {
-                throw new UnauthorizedOperationException();
-            }
             var userDao = _userRepository.GetUserDetailById(userId);
             return _employeeConverter.Convert(userDao);
         }
@@ -58,6 +58,21 @@ namespace EmployeeReview.Domain.UserManagement.Services
             var user = _userRepository.GetUserDetailById(userToUpdate.Id);
             user.FirstName = userToUpdate.FirstName;
             user.LastName = userToUpdate.LastName;
+            _userRepository.SaveChanges();
+        }
+
+        public void EditUserRoles(Guid userId, IEnumerable<Role> roles)
+        {
+            _userRepository.GetUserDetailById(userId);
+            var user = _userRepository.GetUserWithRolesById(userId);
+            
+            if (user == null)
+            {
+                throw new UserNotFoundException("User doesn't exist.");
+            }
+
+            var rolesDao = _roleRepository.GetManyByNames(roles.Select(x => x.Name)).ToList();
+            user.UserRole = rolesDao.ConvertAll(x => _userRoleDaoConverter.Convert(userId, x));
             _userRepository.SaveChanges();
         }
     }
