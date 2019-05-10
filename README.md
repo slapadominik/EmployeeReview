@@ -25,3 +25,6 @@ Running web client:
 - run the application with command
 'npm start'
 
+
+See docs for existing functionalities:
+https://github.com/slapadominik/EmployeeReview/wiki/Docs
