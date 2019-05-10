@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using EmployeeReview.Domain.Common.Exceptions;
+using EmployeeReview.Domain.Reviews.DTO;
+using EmployeeReview.Domain.Reviews.Services.Interfaces;
 using EmployeeReview.Domain.UserManagement.DTO;
 using EmployeeReview.Domain.UserManagement.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -15,10 +17,12 @@ namespace EmployeeReview.API.Features.Users
     public class UsersController : ControllerBase
     {
         private readonly IUserManagementService _userManagementService;
+        private readonly IReviewsService _reviewsService;
 
-        public UsersController(IUserManagementService userManagementService)
+        public UsersController(IUserManagementService userManagementService, IReviewsService reviewsService)
         {
             _userManagementService = userManagementService;
+            _reviewsService = reviewsService;
         }
 
         [HttpGet]
@@ -72,6 +76,36 @@ namespace EmployeeReview.API.Features.Users
             catch (UnauthorizedOperationException ex)
             {
                 return Unauthorized(ex.Message);
+            }
+        }
+
+        [HttpPost("{userId:guid}/reviews")]
+        [Authorize]
+        public IActionResult AddReview(Guid userId, [FromBody] DTO.Review review)
+        {
+            try
+            {
+                _reviewsService.AddReview(new ReviewCommand {UserId = userId, Rate = review.Rate, Content = review.Content});
+                return Ok();
+            }
+            catch (UserNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpGet("{userId:guid}/reviews")]
+        [Authorize]
+        public IActionResult GetReview(Guid userId)
+        {
+            try
+            {
+                var result = _reviewsService.GetByUserId(userId);
+                return Ok(result);
+            }
+            catch (UserNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
         }
 

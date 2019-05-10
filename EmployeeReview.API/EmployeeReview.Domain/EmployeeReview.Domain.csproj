@@ -22,8 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Reviews\Repositories\" />
-    <Folder Include="Reviews\Services\" />
     <Folder Include="Security\Repositories\" />
   </ItemGroup>
 

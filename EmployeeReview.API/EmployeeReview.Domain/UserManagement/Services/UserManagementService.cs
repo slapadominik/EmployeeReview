@@ -42,10 +42,6 @@ namespace EmployeeReview.Domain.UserManagement.Services
         public UserDetails GetDetailsAboutMe(Guid userId)
         {
             var loggedUserId = _principalHelper.Principal.Claims.SingleOrDefault(x => x.Type == "jti");
-            if (Guid.Parse(loggedUserId.Value) != userId)
-            {
-                throw new UnauthorizedOperationException();
-            }
             var userDao = _userRepository.GetUserDetailById(userId);
             return _employeeConverter.Convert(userDao);
         }

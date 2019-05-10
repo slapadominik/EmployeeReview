@@ -1,24 +1,39 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import UserDetailView from './UserDetailView';
+import axios from 'axios'
+import { BASE_URL } from '../../constants';
 
 class UserDetailContainer extends Component {
-    componentDidMount(){
-        console.log(this.props)
+    constructor(props){
+        super(props);
+        this.state = {
+            user: null
+        };
     }
+    componentWillMount(){
+        axios.get(BASE_URL+`/users/${this.props.match.params.id}`)
+        .then(response => {
+            if (response.status===200){
+                this.setState({user: response.data})
+                console.log(response.data)
+            }
+        }).catch(error => {
+            if (error.response) {
+                alert(error.response);
+            }
+            else{
+                console.log(error);
+            }
+        });
+    }
+
     render(){
         return(
             <div>
-                <UserDetailView id={this.props.user.id} firstName={this.props.user.firstName} lastName={this.props.user.lastName} roles={this.props.user.roles}/>
+                {this.state.user && <UserDetailView id={this.state.user.id} firstName={this.state.user.firstName} lastName={this.state.user.lastName} title={this.state.user.title} roles={this.state.user.roles}/>}
             </div>
         );
     }
 }
 
-function mapStateToProps(state, ownProps){
-
-    return {
-        user: state.users.users.find(x => x.id === ownProps.match.params.id)
-    }
-}
-export default connect(mapStateToProps, null)(UserDetailContainer)
+export default UserDetailContainer;

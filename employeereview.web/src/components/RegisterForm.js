@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { BASE_URL } from '../constants';
-import { Textbox } from 'react-inputs-validation';
+import { Textbox, Select } from 'react-inputs-validation';
 import 'react-inputs-validation/lib/react-inputs-validation.min.css';
 
 class RegisterForm extends Component {
@@ -13,12 +13,28 @@ class RegisterForm extends Component {
             password: '',
             repeatPassword: '',
             firstName: '',
-            lastName: ''
+            lastName: '',
+            jobTitle: 0,
+            jobTitles: []
         };
+    }
+
+    componentWillMount(){
+        axios.get(`${BASE_URL}/jobTitles`)
+        .then(resp => {
+          this.setState({jobTitles: resp.data});
+        }).catch(err => {
+          console.log(err);
+        })
     }
 
     onChange = (data,e) => {
         this.setState({[e.target.name]: data});
+    }
+
+    selectOnChange = (data, e) => {
+        this.setState({jobTitle: data});
+        console.log(data);
     }
 
     submit = e => {
@@ -29,7 +45,8 @@ class RegisterForm extends Component {
               email: this.state.email,
               password: this.state.password,
               firstName: this.state.firstName,
-              lastName: this.state.lastName
+              lastName: this.state.lastName,
+              titleId: this.state.jobTitle
           }
         ).then(resp => {
             this.props.history.push('/login');
@@ -69,7 +86,11 @@ class RegisterForm extends Component {
                                 }}/>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="formGroupExampleInput">E-mail</label>
+                            <label htmlFor="jobTitle">Stanowisko pracy</label>
+                            <Select id={'jobTitle'} name="jobTitle" optionList={this.state.jobTitles} value={this.state.jobTitle} onChange={this.selectOnChange} onBlur={() => {}}/>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="email">E-mail</label>
                             <Textbox id={'email'} type="text" name="email" placeholder="Email"  maxLength="40" value={this.state.email} onChange={this.onChange} onBlur={() => {}}
                                 validationOption={{
                                     check: true, 

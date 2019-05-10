@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import user from '../../images/user.png';
 import { withRouter } from 'react-router-dom';  
+import ReviewsContainer from '../Reviews/ReviewsContainer';
 
 class UserDetailView extends Component {
     
@@ -15,6 +16,10 @@ class UserDetailView extends Component {
 
     editRolesOnClick = e => {
         this.props.history.push(`/user/${this.props.id}/roles`);
+    }
+
+    addReviewOnClick = e => {
+        this.props.history.push(`/user/${this.props.id}/addReview`);
     }
 
     render(){
@@ -36,6 +41,11 @@ class UserDetailView extends Component {
                         <h4 className="display-3">{this.props.firstName} {this.props.lastName}</h4> 
                     </div>
                 </div> 
+                <div className="row mt-2">
+                    <div className="col-md-8 offset-md-2 text-center">
+                        <h5>{this.props.title}</h5>
+                    </div>
+                </div> 
                 <div className="row mt-3">    
                     <div className="col-md-4 offset-md-4 text-center">  
                         <ul className="wtf">
@@ -43,16 +53,20 @@ class UserDetailView extends Component {
                         </ul> 
                     </div>                
                 </div>
-                <div className="row mt-5">
-                    <div className="col-md-4 offset-md-4 text-center">
-                        <button className="btn btn-danger" onClick={this.editRolesOnClick}><FontAwesomeIcon icon="pen"/>Zarządzaj rolami</button>
-                    </div>
-                </div>   
                 <div className="row mt-2">
-                    <div className="col-md-4 offset-md-4 text-center">
-                        <button className="btn btn-danger"><FontAwesomeIcon icon="pen"/> Dodaj opinie</button>
+                    <div className="col-md-8 offset-md-2 text-center">
+                        <button className="btn btn-danger mr-2" onClick={this.editRolesOnClick}><FontAwesomeIcon icon="pen"/>Zarządzaj rolami</button>
+                        <button className="btn btn-danger" onClick={this.addReviewOnClick}><FontAwesomeIcon icon="pen"/> Dodaj opinie</button>
                     </div>
-                </div>                   
+                </div>
+                <div className="row mt-4">
+                    <div className="col-md-8 offset-md-2 text-center">
+                        <h5>Opinie</h5>
+                    </div>
+                </div>
+                <div className="col-md-6 offset-md-3">
+                <ReviewsContainer userId={this.props.id} />   
+                </div>         
             </div>
         );
     }

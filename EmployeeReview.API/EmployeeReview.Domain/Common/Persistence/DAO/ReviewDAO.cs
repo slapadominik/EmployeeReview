@@ -12,11 +12,16 @@ namespace EmployeeReview.Domain.Common.Persistence.DAO
 
         public byte Rate { get; set; }
 
-        [MaxLength(400)]
         [Required]
         public string Content { get; set; }
 
+        [Required]
+        public DateTime Created { get; set; }
+
+        public UserDAO Author { get; set; }
+        public Guid? AuthorId { get; set; }
+
         public UserDAO User { get; set; }
-        public Guid UserId { get; set; }
+        public Guid? UserId { get; set; }
     }
 }
