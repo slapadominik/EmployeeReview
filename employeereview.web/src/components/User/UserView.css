@@ -16,12 +16,22 @@
 }
 
 .card:hover, .card:focus {
-    cursor: pointer;
+    cursor: pointer !important;
 }
 .card:hover::after, .card:focus::after{
     opacity: 1;
 }
 
 .card-img-top{
-    padding: 10px;
+    padding-top: 15px;
+    width: 50%!important;
+    object-fit: cover;
+}
+
+.card-title{
+    margin-top:5px;
+}
+
+.card-body{
+    padding:5px !important;
 }

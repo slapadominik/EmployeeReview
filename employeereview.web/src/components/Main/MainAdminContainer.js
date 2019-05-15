@@ -38,7 +38,7 @@ class MainAdminContainer extends Component {
 
     render() {
         return (
-            <div className="container">
+            <div className="container-fluid">
                 {this.props.user.role.includes("Administrator") && <MainAdminView users={this.state.users}/> }
             </div>
         );

@@ -9,10 +9,10 @@ export default class MainContainer extends Component {
 
     render(){
         return (
-        <div className="container">
+        <div className="container-fluid">
             <div className="row justify-content-md-center">
-                <div className="col-md-auto mt-3">
-                    <h3>Użytkownicy</h3>
+                <div className="col-md-auto mt-5">
+                    <h3 className="display-3">Użytkownicy</h3>
                 </div>
             </div>
             <div className="row">

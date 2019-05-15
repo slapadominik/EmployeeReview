@@ -33,7 +33,7 @@ class MainContainer extends Component {
 
     render() {
         return (
-            <div className="container">
+            <div className="container-fluid">
                 {this.state.isAdmin && <MainAdminContainer/> }
                 {this.state.isEmployee && <MainEmployeeContainer/> }
             </div>
