@@ -5,7 +5,8 @@ namespace EmployeeReview.Domain.UserManagement.Repositories.Interfaces
 {
     public interface IRoleRepository
     {
-        IEnumerable<RoleDAO> GetManyByNames(IEnumerable<string> name);
+        IEnumerable<RoleDAO> GetByNames(IEnumerable<string> name);
         IEnumerable<RoleDAO> Get();
+        RoleDAO GetByName(string role);
     }
 }

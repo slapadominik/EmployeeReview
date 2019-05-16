@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using EmployeeReview.API.DTO;
 using EmployeeReview.Domain.Common.Exceptions;
 using EmployeeReview.Domain.Reviews.DTO;
 using EmployeeReview.Domain.Reviews.Services.Interfaces;
@@ -7,7 +8,6 @@ using EmployeeReview.Domain.UserManagement.DTO;
 using EmployeeReview.Domain.UserManagement.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UserPersonalInformation = EmployeeReview.API.DTO.UserPersonalInformation;
 
 namespace EmployeeReview.API.Features.Users
 {
@@ -26,11 +26,23 @@ namespace EmployeeReview.API.Features.Users
         }
 
         [HttpGet]
-        [Authorize(Roles = Consts.Roles.Administrator)]
-        public IActionResult GetAll()
+        public IActionResult Get([FromQuery] string role, [FromQuery] Guid? supervisorId)
         {
-            var employees = _userManagementService.GetAll();
-            return Ok(employees);
+            IEnumerable<UserDetails> users = new List<UserDetails>();
+            if (role != null)
+            {
+                users = _userManagementService.GetByRole(role);
+            }
+            else if (supervisorId != null)
+            {
+                users = _userManagementService.GetBySupervisorId(supervisorId.Value);
+            }
+            else
+            {
+                users = _userManagementService.GetAll();
+            }
+
+            return Ok(users);
         }
 
         [HttpGet("{id:guid}")]
@@ -47,15 +59,12 @@ namespace EmployeeReview.API.Features.Users
             }
         }
 
-        [HttpPut("{id:guid}")]
-        public IActionResult EditPersonalInformation([FromRoute] Guid id, [FromBody]UserPersonalInformation userInfo)
+        [HttpPatch("{userId:guid}/jobInformation")]
+        public IActionResult EditPersonalInformation([FromRoute] Guid userId, [FromBody]JobInformation userInfo)
         {
             try
             {
-                _userManagementService.UpdatePersonalInformation(
-                    new Domain.UserManagement.DTO.UserPersonalInformation
-                        {Id = id, FirstName = userInfo.FirstName, LastName = userInfo.LastName}
-                );
+                _userManagementService.UpdateUsersJobInformation(new UserJobInformation{UserId = userId, JobTitle = userInfo.JobTitleId, SupervisorId = userInfo.SupervisorId});
                 return Ok();
             }
             catch (UnauthorizedOperationException ex)
@@ -63,7 +72,7 @@ namespace EmployeeReview.API.Features.Users
                 return Unauthorized(ex.Message);
             }
         }
-
+        
         [HttpPut("{userId:guid}/roles")]
         [Authorize(Roles = Consts.Roles.Administrator)]
         public IActionResult EditUserRoles([FromRoute] Guid userId, [FromBody] IEnumerable<Role> roles)

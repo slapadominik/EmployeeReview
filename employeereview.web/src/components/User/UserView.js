@@ -15,7 +15,7 @@ const UserView = (props) => {
                 <img className="card-img-top mx-auto align-items-stretch" src={user} alt="User"/>
                 <div className="card-body">
                     <h5 className="card-title">{props.firstName} {props.lastName}</h5>
-                    <p className="text-center">{props.title}</p>
+                    <p className="text-center">{props.title.name}</p>
                 </div>
             </div>
             </div>

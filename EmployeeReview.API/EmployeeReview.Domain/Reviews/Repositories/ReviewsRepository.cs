@@ -4,6 +4,7 @@ using System.Linq;
 using EmployeeReview.Domain.Common.Persistence;
 using EmployeeReview.Domain.Common.Persistence.DAO;
 using EmployeeReview.Domain.Reviews.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeReview.Domain.Reviews.Repositories
 {
@@ -24,7 +25,7 @@ namespace EmployeeReview.Domain.Reviews.Repositories
 
         public IEnumerable<ReviewDAO> GetByUserId(Guid id)
         {
-            return _dbContext.Reviews.Where(x => x.UserId == id).ToList();
+            return _dbContext.Reviews.Include(x => x.Author).Where(x => x.UserId == id).ToList();
         }
     }
 }

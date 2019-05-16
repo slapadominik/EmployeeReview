@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace EmployeeReview.Domain.Migrations
+namespace EmployeeReview.Domain.Common.Persistence.Migrations
 {
     public partial class Init : Migration
     {
@@ -35,6 +35,19 @@ namespace EmployeeReview.Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Team",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(maxLength: 60, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Team", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "User",
                 columns: table => new
                 {
@@ -45,11 +58,18 @@ namespace EmployeeReview.Domain.Migrations
                     FirstName = table.Column<string>(maxLength: 30, nullable: false),
                     LastName = table.Column<string>(maxLength: 30, nullable: false),
                     Sex = table.Column<string>(nullable: false),
-                    TitleId = table.Column<int>(nullable: false)
+                    TitleId = table.Column<int>(nullable: false),
+                    SupervisorId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_User_User_SupervisorId",
+                        column: x => x.SupervisorId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_User_JobTitle_TitleId",
                         column: x => x.TitleId,
@@ -111,6 +131,30 @@ namespace EmployeeReview.Domain.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserTeam",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(nullable: false),
+                    TeamId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserTeam", x => new { x.UserId, x.TeamId });
+                    table.ForeignKey(
+                        name: "FK_UserTeam_Team_TeamId",
+                        column: x => x.TeamId,
+                        principalTable: "Team",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserTeam_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "JobTitle",
                 columns: new[] { "Id", "Name" },
@@ -119,12 +163,12 @@ namespace EmployeeReview.Domain.Migrations
                     { 1, "Młodszy programista .NET" },
                     { 16, "Kierownik zespołów programistycznych" },
                     { 15, "Kierownik testerów" },
-                    { 14, "Architekt baz danych" },
                     { 13, "Architekt oprogramowania" },
                     { 12, "Starszy tester oprogramowania" },
                     { 11, "Starszy tester oprogramowania" },
-                    { 9, "Młodszy tester oprogramowania" },
                     { 10, "Tester oprogramowania" },
+                    { 9, "Młodszy tester oprogramowania" },
+                    { 14, "Architekt baz danych" },
                     { 7, "Scrum Master" },
                     { 6, "Starszy programista SQL" },
                     { 5, "Programista SQL" },
@@ -139,21 +183,35 @@ namespace EmployeeReview.Domain.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
+                    { 4, "Employee" },
                     { 3, "Supervisor" },
-                    { 1, "Administrator" },
                     { 2, "HR" },
-                    { 4, "Employee" }
+                    { 1, "Administrator" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Team",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 6, "Angry Nerds" },
+                    { 1, "Testerzy" },
+                    { 2, "IT-300" },
+                    { 3, "Gwiezdna Flota" },
+                    { 4, "Delta Force" },
+                    { 5, "RR" },
+                    { 7, "Nitro" }
                 });
 
             migrationBuilder.InsertData(
                 table: "User",
-                columns: new[] { "Id", "Email", "FirstName", "LastName", "Password", "PasswordSalt", "Sex", "TitleId" },
-                values: new object[] { new Guid("585395a8-663e-4ff2-bd09-8c756b2d9a59"), "admin@gmail.com", "Dominik", "Słapa", new byte[] { 170, 250, 107, 184, 207, 20, 137, 118, 8, 184, 66, 132, 71, 124, 221, 136, 219, 76, 193, 190, 157, 220, 179, 153, 118, 52, 119, 125, 173, 148, 93, 186, 225, 51, 236, 163, 37, 141, 40, 88, 29, 47, 160, 79, 119, 173, 155, 99, 49, 207, 228, 165, 78, 242, 21, 240, 106, 81, 132, 136, 245, 153, 215, 240 }, new byte[] { 75, 251, 30, 150, 228, 18, 1, 141, 224, 225, 234, 210, 173, 168, 43, 31, 24, 167, 22, 80, 164, 1, 212, 175, 211, 150, 102, 174, 99, 151, 41, 162, 240, 31, 128, 160, 226, 247, 140, 193, 241, 107, 242, 35, 190, 106, 47, 43, 103, 218, 208, 72, 244, 163, 133, 218, 83, 109, 209, 89, 40, 64, 32, 21, 195, 227, 212, 214, 136, 175, 25, 41, 83, 186, 119, 197, 50, 45, 32, 237, 96, 73, 121, 30, 87, 119, 206, 146, 127, 33, 10, 162, 143, 94, 50, 219, 218, 20, 54, 22, 162, 244, 96, 225, 172, 134, 63, 174, 227, 192, 29, 170, 203, 184, 18, 100, 68, 110, 65, 226, 14, 12, 67, 143, 102, 54, 226, 10 }, "M", 16 });
+                columns: new[] { "Id", "Email", "FirstName", "LastName", "Password", "PasswordSalt", "Sex", "SupervisorId", "TitleId" },
+                values: new object[] { new Guid("5044dad1-e57b-4431-9367-59c7ce98d014"), "admin@gmail.com", "Dominik", "Słapa", new byte[] { 156, 56, 196, 64, 234, 151, 240, 23, 217, 233, 43, 29, 114, 129, 45, 96, 200, 187, 122, 182, 14, 19, 58, 65, 212, 228, 242, 239, 115, 167, 121, 111, 180, 254, 20, 69, 164, 18, 94, 113, 57, 146, 182, 58, 97, 242, 89, 68, 215, 221, 40, 62, 169, 64, 188, 162, 152, 58, 128, 151, 211, 28, 125, 114 }, new byte[] { 4, 159, 41, 147, 23, 251, 112, 94, 22, 234, 239, 161, 173, 234, 215, 236, 142, 61, 198, 17, 198, 80, 64, 72, 207, 64, 6, 107, 13, 251, 100, 36, 215, 189, 98, 195, 250, 133, 56, 30, 102, 102, 96, 49, 243, 79, 121, 23, 165, 136, 82, 143, 107, 208, 134, 177, 204, 116, 196, 196, 38, 204, 184, 220, 124, 12, 8, 56, 199, 36, 12, 217, 146, 211, 65, 154, 187, 125, 202, 14, 212, 196, 230, 2, 129, 102, 80, 71, 189, 208, 76, 249, 166, 227, 72, 206, 252, 176, 99, 55, 28, 152, 0, 42, 240, 115, 79, 122, 87, 245, 195, 250, 118, 33, 38, 124, 43, 9, 244, 207, 121, 237, 30, 107, 141, 184, 127, 46 }, "M", null, 16 });
 
             migrationBuilder.InsertData(
                 table: "UserRole",
                 columns: new[] { "UserId", "RoleId" },
-                values: new object[] { new Guid("585395a8-663e-4ff2-bd09-8c756b2d9a59"), 1 });
+                values: new object[] { new Guid("5044dad1-e57b-4431-9367-59c7ce98d014"), 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Review_AuthorId",
@@ -166,6 +224,11 @@ namespace EmployeeReview.Domain.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_User_SupervisorId",
+                table: "User",
+                column: "SupervisorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_User_TitleId",
                 table: "User",
                 column: "TitleId");
@@ -174,6 +237,11 @@ namespace EmployeeReview.Domain.Migrations
                 name: "IX_UserRole_RoleId",
                 table: "UserRole",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserTeam_TeamId",
+                table: "UserTeam",
+                column: "TeamId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -185,7 +253,13 @@ namespace EmployeeReview.Domain.Migrations
                 name: "UserRole");
 
             migrationBuilder.DropTable(
+                name: "UserTeam");
+
+            migrationBuilder.DropTable(
                 name: "Role");
+
+            migrationBuilder.DropTable(
+                name: "Team");
 
             migrationBuilder.DropTable(
                 name: "User");

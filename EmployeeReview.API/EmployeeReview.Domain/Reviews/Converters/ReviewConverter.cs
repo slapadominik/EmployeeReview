@@ -20,7 +20,8 @@ namespace EmployeeReview.Domain.Reviews.Converters
                 cfg.CreateMap<ReviewCommand, ReviewDAO>()
                     .ForMember(x => x.User, opt => opt.Ignore())
                     .ForMember(x => x.Id, opt => opt.Ignore());
-                cfg.CreateMap<ReviewDAO, ReviewQuery>();
+                cfg.CreateMap<ReviewDAO, ReviewQuery>()
+                    .ForMember(x => x.Author, opt => opt.Ignore());
             });
             _mapper = mapperConfig.CreateMapper();
         }
@@ -33,10 +34,13 @@ namespace EmployeeReview.Domain.Reviews.Converters
             return review;
         }
 
-        public ReviewQuery Convert(ReviewDAO reviewDao, UserDAO authorDao)
+        public ReviewQuery Convert(ReviewDAO reviewDao)
         {
             var review = _mapper.Map<ReviewQuery>(reviewDao);
-            review.Author = _reviewAuthorConverter.Convert(authorDao);
+            review.Author = new ReviewAuthor
+            {
+                Id = reviewDao.Author.Id, FirstName = reviewDao.Author.FirstName, LastName = reviewDao.Author.LastName
+            };
             return review;
         }
     }

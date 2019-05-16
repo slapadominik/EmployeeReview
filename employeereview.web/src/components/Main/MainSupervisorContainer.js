@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {BASE_URL} from '../../constants';
+import {BASE_URL, SUPERVISOR_ROLE} from '../../constants';
 import { connect } from 'react-redux';
-import MainAdminView from './MainAdminView';
+import MainSupervisorView from './MainSupervisorView';
 import { setUsers} from '../../actions/userActions';
 
-class MainAdminContainer extends Component {
+class MainSupervisorContainer extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -14,9 +14,10 @@ class MainAdminContainer extends Component {
     }
 
     componentDidMount(){
+        console.log(this.props.user)
         if (this.props.user.role){
-            if (this.props.user.role.includes("Administrator")){
-                axios.get(BASE_URL+'/users')
+            if (this.props.user.role.includes(SUPERVISOR_ROLE)){
+                axios.get(BASE_URL+`/users?supervisorId=${this.props.user.jti}`)
                 .then(response => {
                     if (response.status===200){
                         console.log(response.data)
@@ -40,7 +41,7 @@ class MainAdminContainer extends Component {
     render() {
         return (
             <div className="container-fluid">
-                {this.props.user.role.includes("Administrator") && <MainAdminView users={this.state.users}/> }
+                {this.props.user.role.includes(SUPERVISOR_ROLE) && <MainSupervisorView users={this.state.users}/> }
             </div>
         );
     }
@@ -51,4 +52,4 @@ function mapStateToProps(state){
         user: state.auth.user
     }
 }
-export default connect(mapStateToProps, { setUsers })(MainAdminContainer)
+export default connect(mapStateToProps, { setUsers })(MainSupervisorContainer)

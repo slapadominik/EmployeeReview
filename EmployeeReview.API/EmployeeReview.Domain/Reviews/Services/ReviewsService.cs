@@ -47,7 +47,7 @@ namespace EmployeeReview.Domain.Reviews.Services
             {
                 throw new UserNotFoundException($"User with id {userId} not exists.");
             }
-            return _reviewsRepository.GetByUserId(userId).Select(x => _reviewConverter.Convert(x, user));
+            return _reviewsRepository.GetByUserId(userId).Select(x => _reviewConverter.Convert(x));
         }
     }
 }

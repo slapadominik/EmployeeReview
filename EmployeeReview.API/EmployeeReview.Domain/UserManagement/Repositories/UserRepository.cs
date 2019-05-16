@@ -22,6 +22,17 @@ namespace EmployeeReview.Domain.UserManagement.Repositories
             return _dbContext.Users.Include(x => x.Title).Include(x => x.UserRole).ThenInclude(x => x.Role);
         }
 
+        public IEnumerable<UserDAO> GetByRole(int roleId)
+        {
+            return _dbContext.Users.Include(x => x.UserRole).Include(x => x.Title).Where(x => x.UserRole.Any(y => y.UserId == x.Id && y.RoleId == roleId));
+        }
+
+        public IEnumerable<UserDAO> GetBySupervisorId(Guid supervisorId)
+        {
+            return _dbContext.Users.Include(x => x.Supervisor).Include(x => x.Title).Include(x => x.UserRole)
+                .ThenInclude(x => x.Role).Where(x => x.SupervisorId == supervisorId);
+        }
+
         public UserDAO GetUserWithRolesById(Guid userId)
         {
             return _dbContext.Users.Include(x => x.UserRole).ThenInclude(x => x.Role).SingleOrDefault(x => x.Id == userId);
@@ -29,7 +40,12 @@ namespace EmployeeReview.Domain.UserManagement.Repositories
 
         public UserDAO GetUserDetailById(Guid userId)
         {
-            return _dbContext.Users.Include(x => x.Title).Include(x => x.UserRole).ThenInclude(x => x.Role).SingleOrDefault(x => x.Id == userId);            
+            return _dbContext.Users.Include(x => x.Title).Include(x => x.Supervisor).Include(x => x.UserRole).ThenInclude(x => x.Role).SingleOrDefault(x => x.Id == userId);            
+        }
+
+        public UserDAO GetBrief(Guid userId)
+        {
+            return _dbContext.Users.SingleOrDefault(x => x.Id == userId);
         }
 
         public int SaveChanges()

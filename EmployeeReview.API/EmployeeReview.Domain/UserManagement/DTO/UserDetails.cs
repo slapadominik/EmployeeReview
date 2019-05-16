@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using EmployeeReview.Domain.Security.DTO;
 
 namespace EmployeeReview.Domain.UserManagement.DTO
 {
@@ -10,8 +9,9 @@ namespace EmployeeReview.Domain.UserManagement.DTO
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public char Sex { get; set; }
-        public string Title { get; set; }
+        public JobTitle JobTitle { get; set; }
         public ICollection<Role> Roles { get; set; }
+        public UserBrief Supervisor { get; set; }
 
         public UserDetails()
         {
