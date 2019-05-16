@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import UserDetailView from './UserDetailView';
 import axios from 'axios'
 import { BASE_URL } from '../../constants';
+import { connect } from 'react-redux';
 
 class UserDetailContainer extends Component {
     constructor(props){
@@ -10,12 +11,12 @@ class UserDetailContainer extends Component {
             user: null
         };
     }
-    componentWillMount(){
+    componentDidMount(){
         axios.get(BASE_URL+`/users/${this.props.match.params.id}`)
         .then(response => {
             if (response.status===200){
-                this.setState({user: response.data})
                 console.log(response.data)
+                this.setState({user: response.data})
             }
         }).catch(error => {
             if (error.response) {
@@ -30,10 +31,15 @@ class UserDetailContainer extends Component {
     render(){
         return(
             <div>
-                {this.state.user && <UserDetailView id={this.state.user.id} firstName={this.state.user.firstName} lastName={this.state.user.lastName} title={this.state.user.title} roles={this.state.user.roles}/>}
+                {this.state.user && <UserDetailView loggedUser={this.props.user} id={this.state.user.id} firstName={this.state.user.firstName} lastName={this.state.user.lastName} title={this.state.user.jobTitle} roles={this.state.user.roles} supervisor={this.state.user.supervisor}/>}
             </div>
         );
     }
 }
 
-export default UserDetailContainer;
+function mapStateToProps(state){
+    return {
+        user: state.auth.user
+    }
+}
+export default connect(mapStateToProps, null)(UserDetailContainer)

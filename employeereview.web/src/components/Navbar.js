@@ -15,7 +15,7 @@ class Navbar extends Component {
     render() {    
         return (
                 <nav className="navbar navbar-dark">
-                    <Link to="/" className="navbar-brand">System oceny pracowników</Link>
+                    <Link to="/" className="navbar-brand display-4">System oceny pracowników</Link>
                     <ul className="nav">
                             {!this.props.auth.isAuthenticated && <li className="nav-item">
                                 <Link to="/login" className="nav-link">Zaloguj się</Link>

@@ -7,6 +7,6 @@ namespace EmployeeReview.Domain.Reviews.Converters.Interfaces
     public interface IReviewConverter
     {
         ReviewDAO Convert(ReviewCommand reviewCommand, DateTime created, Guid authorId);
-        ReviewQuery Convert(ReviewDAO reviewDao, UserDAO authorDao);
+        ReviewQuery Convert(ReviewDAO reviewDao);
     }
 }

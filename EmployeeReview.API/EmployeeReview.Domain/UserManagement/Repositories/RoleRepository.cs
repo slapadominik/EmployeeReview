@@ -15,7 +15,7 @@ namespace EmployeeReview.Domain.UserManagement.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
-        public IEnumerable<RoleDAO> GetManyByNames(IEnumerable<string> name)
+        public IEnumerable<RoleDAO> GetByNames(IEnumerable<string> name)
         {
             return _applicationDbContext.Roles.Where(x => name.Contains(x.Name));
         }
@@ -23,6 +23,11 @@ namespace EmployeeReview.Domain.UserManagement.Repositories
         public IEnumerable<RoleDAO> Get()
         {
             return _applicationDbContext.Roles;
+        }
+
+        public RoleDAO GetByName(string roleName)
+        {
+            return _applicationDbContext.Roles.SingleOrDefault(x => x.Name == roleName);
         }
     }
 }

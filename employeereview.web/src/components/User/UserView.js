@@ -1,26 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 import user from '../../images/user-male.png';
 import { withRouter } from 'react-router-dom';
 import './UserView.css';
 
-class UserView extends Component {
+const UserView = (props) => {
 
-    openUserDetails = (id) => {
-        this.props.history.push(`/user/${id}`);
+    const openUserDetails = (id) => {
+        props.history.push(`/user/${id}`);
     }
 
-    render(){
         return(
-            <div className="col-lg-3 d-flex align-items-stretch">
-            <div className="card mt-4" onClick={() => this.openUserDetails(this.props.id)}>
-                <img className="card-img-top w-75 mx-auto align-items-stretch" src={user} alt="User"/>
+            <div className="col-xs-4 col-sm-4 col-md-3 col-lg-2">
+            <div className="card h-100 mt-4 text-center" onClick={() => openUserDetails(props.id)}>
+                <img className="card-img-top mx-auto align-items-stretch" src={user} alt="User"/>
                 <div className="card-body">
-                    <h5 className="card-title text-center">{this.props.firstName} {this.props.lastName}</h5>
-                    <p className="text-center">{this.props.title}</p>
+                    <h5 className="card-title">{props.firstName} {props.lastName}</h5>
+                    <p className="text-center">{props.title.name}</p>
                 </div>
             </div>
             </div>
         )
-    }
 }
 export default withRouter(UserView);

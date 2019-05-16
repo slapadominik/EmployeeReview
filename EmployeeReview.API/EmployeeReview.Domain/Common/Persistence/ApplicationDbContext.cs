@@ -14,6 +14,7 @@ namespace EmployeeReview.Domain.Common.Persistence
         public DbSet<RoleDAO> Roles { get; set; }
         public DbSet<ReviewDAO> Reviews { get; set; }
         public DbSet<JobTitleDAO> JobTitles { get; set; }
+        public DbSet<UserRoleDAO> UserRoles { get; set; }
 
         public ApplicationDbContext(){}
 
@@ -45,12 +46,25 @@ namespace EmployeeReview.Domain.Common.Persistence
                 .HasOne(x => x.User)
                 .WithMany(x => x.ReviewsReceived)
                 .HasForeignKey(x => x.UserId);
-                
-               
+
+            modelBuilder.Entity<UserTeamDAO>()
+                .HasKey(t => new { t.UserId, t.TeamId });
+
+            modelBuilder.Entity<UserTeamDAO>()
+                .HasOne(pt => pt.User)
+                .WithMany(p => p.UserTeam)
+                .HasForeignKey(pt => pt.UserId);
+
+            modelBuilder.Entity<UserTeamDAO>()
+                .HasOne(pt => pt.Team)
+                .WithMany(t => t.UserTeam)
+                .HasForeignKey(pt => pt.TeamId);
+
 
             modelBuilder.InitRoles();
             modelBuilder.InitJobTitles();
             modelBuilder.InitAdmin();
+            modelBuilder.InitTeams();
         }
     }
 }

@@ -66,6 +66,20 @@ namespace EmployeeReview.Domain.Common.Persistence.DataInit
             });
         }
 
+        public static void InitTeams(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<TeamDAO>().HasData(new TeamDAO[]
+            {
+                new TeamDAO{Id=1, Name = "Testerzy"},
+                new TeamDAO{Id=2, Name = "IT-300"},
+                new TeamDAO{Id=3, Name = "Gwiezdna Flota"},
+                new TeamDAO{Id=4, Name = "Delta Force"},
+                new TeamDAO{Id=5, Name = "RR"},
+                new TeamDAO{Id=6, Name = "Angry Nerds"},
+                new TeamDAO{Id=7, Name = "Nitro"},
+            });
+        }
+
         private static (byte[] password, byte[] salt) HashPassword(string password)
         {
             byte[] salt;
@@ -78,6 +92,7 @@ namespace EmployeeReview.Domain.Common.Persistence.DataInit
 
             return (passwordHash, salt);
         }
+
 
     }
 }

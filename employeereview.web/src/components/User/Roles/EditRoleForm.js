@@ -37,7 +37,7 @@ class EditRoleForm extends Component {
     
     submit = e => {
         e.preventDefault();
-        axios.put(BASE_URL+`/users/${this.props.user.jti}/roles`, this.state.rolesAfterEdit.filter(x => x.checked === true))
+        axios.put(BASE_URL+`/users/${this.props.match.params.id}/roles`, this.state.rolesAfterEdit.filter(x => x.checked === true))
         .then(resp => {
             this.props.history.push('/');
         })
