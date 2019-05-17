@@ -29,8 +29,7 @@ class EditUserInfoForm extends Component {
         })
 
         axios.get(`${BASE_URL}/users?role=Supervisor`)
-        .then(resp => { 
-          console.log(resp);       
+        .then(resp => {      
           this.setState({supervisors:resp.data });
         }).catch(err => {
           console.log(err);
@@ -56,7 +55,6 @@ class EditUserInfoForm extends Component {
             supervisorId: this.state.supervisorId
         })
         .then(resp => {
-            console.log(resp);
             this.props.history.goBack();
         })
         .catch(err =>{

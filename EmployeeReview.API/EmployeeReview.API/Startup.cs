@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using AutoMapper;
+using EmployeeReview.API.Helpers;
 using EmployeeReview.API.Installers;
 using EmployeeReview.Domain.Common;
 using EmployeeReview.Domain.Common.Persistence;
@@ -63,7 +66,18 @@ namespace EmployeeReview.API
             services.AddHttpContextAccessor();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "EmployeeReview.API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info
+                {
+                    Title = "EmployeeReview.API",
+                    Version = "v1",
+                    Description = "API for employee evaluation system. Contains operations like adding reviews by supervisor to an employee. Authorization is based on roles. ",
+                    Contact = new Contact
+                    {
+                        Name = "Dominik Słapa",
+                        Email = "dominik.slapa@gmail.com",
+                        Url = "https://github.com/slapadominik"
+                    },
+                });
 
                 c.AddSecurityDefinition("Bearer",
                     new ApiKeyScheme
@@ -73,9 +87,10 @@ namespace EmployeeReview.API
                         Name = "Authorization",
                         Type = "apiKey"
                     });
-                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> {
-                    { "Bearer", Enumerable.Empty<string>() },
-                });
+                c.OperationFilter<SecurityRequirementsOperationFilter>();
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
             services.AddOptions();
             services.Configure<AppSettings>(Configuration.GetSection("Security"));

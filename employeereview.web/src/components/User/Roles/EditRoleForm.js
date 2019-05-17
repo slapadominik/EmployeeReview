@@ -18,7 +18,6 @@ class EditRoleForm extends Component {
     }
 
     componentDidMount(){
-        console.log(this.props);
         axios.get(BASE_URL+`/roles`)
         .then(response => {
             if (response.status===200){

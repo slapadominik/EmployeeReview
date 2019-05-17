@@ -16,7 +16,7 @@ export default class ReviewsContainer extends Component {
                 .then(response => {
                     if (response.status===200){
                         this.setState({reviews: response.data});
-                        console.log(response.data);
+
                     }
                 }).catch(error => {
                     if (error.response) {
@@ -36,7 +36,6 @@ export default class ReviewsContainer extends Component {
     render(){
         return(
             <div>
-                {console.log(this.state)}
                 {this.mapReviews()}
             </div>
         );

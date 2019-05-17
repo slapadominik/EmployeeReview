@@ -2,6 +2,8 @@
 using EmployeeReview.API.Features.JobTitles.Converters.Interfaces;
 using EmployeeReview.Domain.Reviews.Converters;
 using EmployeeReview.Domain.Reviews.Converters.Interfaces;
+using EmployeeReview.Domain.Teams.Converters;
+using EmployeeReview.Domain.Teams.Converters.Interfaces;
 using EmployeeReview.Domain.UserManagement.Converters;
 using EmployeeReview.Domain.UserManagement.Converters.Interfaces;
 using EmployeeReview.Domain.UserManagement.Repositories;
@@ -20,6 +22,7 @@ namespace EmployeeReview.API.Installers
             services.AddScoped<IReviewConverter, ReviewConverter>();
             services.AddScoped<IJobTitleConverter, JobTitleConverter>();
             services.AddScoped<IReviewAuthorConverter, ReviewAuthorConverter>();
+            services.AddScoped<ITeamConverter, TeamConverter>();
         }
     }
 }

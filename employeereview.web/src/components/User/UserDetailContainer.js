@@ -15,7 +15,6 @@ class UserDetailContainer extends Component {
         axios.get(BASE_URL+`/users/${this.props.match.params.id}`)
         .then(response => {
             if (response.status===200){
-                console.log(response.data)
                 this.setState({user: response.data})
             }
         }).catch(error => {
