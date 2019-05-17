@@ -22,6 +22,9 @@ namespace EmployeeReview.API.Features.Security
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Authorize user in the system. 
+        /// </summary>
         [HttpPost("login")]
         public IActionResult Login([FromBody]Credentials credentials)
         {
@@ -40,6 +43,9 @@ namespace EmployeeReview.API.Features.Security
             }
         }
 
+        /// <summary>
+        /// Register user in the system. 
+        /// </summary>
         [HttpPost("register")]
         public IActionResult Register([FromBody] Registration registration)
         {

@@ -36,9 +36,7 @@ class ProfileEditForm extends Component {
         axios.get(BASE_URL+`/users/${this.props.user.jti}`)
         .then(response => {
             if (response.status===200){
-                console.log(response.data)
                 this.setState({firstName: response.data.firstName, lastName: response.data.lastName});
-                console.log(this.state.roles);
             }
         }).catch(error => {
             if (error.response) {

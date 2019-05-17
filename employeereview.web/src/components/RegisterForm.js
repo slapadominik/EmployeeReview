@@ -34,7 +34,6 @@ class RegisterForm extends Component {
 
     selectOnChange = (data, e) => {
         this.setState({jobTitle: data});
-        console.log(data);
     }
 
     submit = e => {

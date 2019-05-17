@@ -8,7 +8,6 @@ import { ADMIN_ROLE, SUPERVISOR_ROLE } from '../../constants';
 class UserDetailView extends Component {
     constructor(props){
         super(props);
-        console.log(props);
     }
     mapRoles = () => {
         return this.props.roles.map((x,i) => <li className="badge badge-primary mr-2 text-center" key={i}><h6>{x.name}</h6></li>)

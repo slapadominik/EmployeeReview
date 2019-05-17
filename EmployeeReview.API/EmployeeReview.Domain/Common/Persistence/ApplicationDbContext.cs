@@ -15,6 +15,8 @@ namespace EmployeeReview.Domain.Common.Persistence
         public DbSet<ReviewDAO> Reviews { get; set; }
         public DbSet<JobTitleDAO> JobTitles { get; set; }
         public DbSet<UserRoleDAO> UserRoles { get; set; }
+        public DbSet<UserTeamDAO> UserTeam { get; set; }
+        public DbSet<TeamDAO> Teams { get; set; }
 
         public ApplicationDbContext(){}
 

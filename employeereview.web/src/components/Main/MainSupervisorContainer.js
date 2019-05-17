@@ -14,13 +14,11 @@ class MainSupervisorContainer extends Component {
     }
 
     componentDidMount(){
-        console.log(this.props.user)
         if (this.props.user.role){
             if (this.props.user.role.includes(SUPERVISOR_ROLE)){
                 axios.get(BASE_URL+`/users?supervisorId=${this.props.user.jti}`)
                 .then(response => {
                     if (response.status===200){
-                        console.log(response.data)
                         this.setState({users: response.data});
                         this.props.setUsers(response.data);
                     }

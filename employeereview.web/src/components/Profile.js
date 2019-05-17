@@ -19,9 +19,7 @@ class Profile extends Component {
         axios.get(BASE_URL+`/users/${this.props.user.jti}`)
         .then(response => {
             if (response.status===200){
-                console.log(response.data)
                 this.setState({firstName: response.data.firstName, lastName: response.data.lastName, roles: response.data.roles});
-                console.log(this.state.roles);
             }
         }).catch(error => {
             if (error.response) {

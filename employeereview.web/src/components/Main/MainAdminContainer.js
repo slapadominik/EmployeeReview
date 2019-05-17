@@ -19,7 +19,6 @@ class MainAdminContainer extends Component {
                 axios.get(BASE_URL+'/users')
                 .then(response => {
                     if (response.status===200){
-                        console.log(response.data)
                         this.setState({users: response.data});
                         this.props.setUsers(response.data);
                     }

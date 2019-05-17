@@ -3,6 +3,8 @@ using EmployeeReview.Domain.JobTitles.Repositories;
 using EmployeeReview.Domain.JobTitles.Repositories.Interfaces;
 using EmployeeReview.Domain.Reviews.Repositories;
 using EmployeeReview.Domain.Reviews.Repositories.Interfaces;
+using EmployeeReview.Domain.Teams.Repositories;
+using EmployeeReview.Domain.Teams.Repositories.Interfaces;
 using EmployeeReview.Domain.UserManagement.Repositories;
 using EmployeeReview.Domain.UserManagement.Repositories.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +19,7 @@ namespace EmployeeReview.API.Installers
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IReviewsRepository, ReviewsRepository>();
             services.AddScoped<IJobTitlesRepository, JobTitlesRepository>();
+            services.AddScoped<ITeamsRepository, TeamsRepository>();
         }
     }
 }

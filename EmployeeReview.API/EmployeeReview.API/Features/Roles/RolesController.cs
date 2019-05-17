@@ -16,6 +16,9 @@ namespace EmployeeReview.API.Features.Roles
             _rolesService = rolesService;
         }
 
+        /// <summary>
+        /// Gets information about system users' roles.
+        /// </summary>
         [HttpGet]
         [Authorize(Roles = Consts.Roles.Administrator)]
         public IActionResult GetAll()
