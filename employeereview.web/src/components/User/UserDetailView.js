@@ -53,18 +53,23 @@ class UserDetailView extends Component {
                         <p className="display-4">{this.props.title.name}</p>
                     </div>
                 </div> 
-                {this.props.supervisor && <div className="row">
+                {<div className="row">
                     <div className="col-md-8 offset-md-2 text-center">
-                        <p className="display-4">Przełożony: {this.props.supervisor.firstName+' '+this.props.supervisor.lastName}</p>
+                        <p className="display-4">Przełożony: {this.props.supervisor !== null ? this.props.supervisor.firstName+' '+this.props.supervisor.lastName : "Brak"}</p>
                     </div>
                 </div> }
-                <div className="row mt-3">    
+                {<div className="row">
+                    <div className="col-md-8 offset-md-2 text-center">
+                        <p className="display-4">Zespół: {this.props.team !== null ? this.props.team.name : "Brak"}</p>
+                    </div>
+                </div> }
+                {this.props.loggedUser.role.includes(ADMIN_ROLE) && <div className="row mt-3">    
                     <div className="col-md-4 offset-md-4 text-center">  
                         <ul className="wtf">
                             {this.mapRoles()}
                         </ul> 
                     </div>                
-                </div>
+                </div>}
                 <div className="row mt-2">
                     <div className="col-md-8 offset-md-2 text-center">
                         {this.props.loggedUser.role.includes(ADMIN_ROLE)  && <button className="btn btn-danger mr-2" onClick={this.editUserInfoOnClick}><FontAwesomeIcon icon="pen"/>Edytuj profil</button>}

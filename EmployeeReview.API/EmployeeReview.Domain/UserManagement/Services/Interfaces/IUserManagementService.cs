@@ -9,7 +9,7 @@ namespace EmployeeReview.Domain.UserManagement.Services.Interfaces
         IEnumerable<UserDetails> GetAll();
         IEnumerable<UserDetails> GetByRole(string role);
         IEnumerable<UserDetails> GetBySupervisorId(Guid supervisorId);
-        UserDetails GetDetailsAboutMe(Guid userId);
+        UserDetails GetDetails(Guid userId);
         void UpdateUsersJobInformation(UserJobInformation user);
         void EditUserRoles(Guid userId, IEnumerable<Role> roles);
     }

@@ -19,7 +19,7 @@ namespace EmployeeReview.Domain.Tests.UserManagement.Services
     {
         private IUserManagementService _sut;
         private Mock<IUserRepository> _userRepositoryMock;
-        private Mock<IEmployeeConverter> _employeeConverterMock;
+        private Mock<IUserDetailConverter> _employeeConverterMock;
         private IFixture _fixture;
 
         [SetUp]
@@ -27,7 +27,7 @@ namespace EmployeeReview.Domain.Tests.UserManagement.Services
         {
             _fixture = new Fixture().Customize(new AutoMoqCustomization());
             _userRepositoryMock = _fixture.Freeze<Mock<IUserRepository>>();
-            _employeeConverterMock = _fixture.Freeze<Mock<IEmployeeConverter>>();
+            _employeeConverterMock = _fixture.Freeze<Mock<IUserDetailConverter>>();
             _sut = _fixture.Create<UserManagementService>();
         }
 

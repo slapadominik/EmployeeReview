@@ -36,8 +36,10 @@ namespace EmployeeReview.Domain.Common.Persistence.DAO
         public UserDAO Supervisor { get; set; }
         public Guid? SupervisorId { get; set; }
 
+        public TeamDAO Team { get; set; }
+        public int? TeamId{ get; set; }
+
         public List<UserRoleDAO> UserRole { get; set; } = new List<UserRoleDAO>();
-        public List<UserTeamDAO> UserTeam { get; set; } = new List<UserTeamDAO>();
         public ICollection<ReviewDAO> ReviewsReceived { get; set; }
         public ICollection<ReviewDAO> ReviewsGiven { get; set; }
     }

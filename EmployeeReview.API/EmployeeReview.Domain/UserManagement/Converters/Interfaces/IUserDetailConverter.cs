@@ -3,7 +3,7 @@ using UserDAO = EmployeeReview.Domain.Common.Persistence.DAO.UserDAO;
 
 namespace EmployeeReview.Domain.UserManagement.Converters.Interfaces
 {
-    public interface IEmployeeConverter
+    public interface IUserDetailConverter
     {
         UserDetails Convert(UserDAO user);
     }

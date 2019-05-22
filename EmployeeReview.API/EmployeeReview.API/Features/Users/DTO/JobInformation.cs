@@ -6,5 +6,6 @@ namespace EmployeeReview.API.DTO
     {
         public int JobTitleId { get; set; }
         public Guid SupervisorId { get; set; }
+        public int TeamId { get; set; }
     }
 }

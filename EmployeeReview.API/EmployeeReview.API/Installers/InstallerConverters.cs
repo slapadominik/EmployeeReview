@@ -17,7 +17,7 @@ namespace EmployeeReview.API.Installers
         public static void InstallConverters(this IServiceCollection services)
         {
             services.AddScoped<IRoleConverter, RoleConverter>();
-            services.AddScoped<IEmployeeConverter, EmployeeConverter>();
+            services.AddScoped<IUserDetailConverter, Domain.UserManagement.Converters.UserDetailConverter>();
             services.AddScoped<IUserRoleDaoConverter, UserRoleDaoConverter>();
             services.AddScoped<IReviewConverter, ReviewConverter>();
             services.AddScoped<IJobTitleConverter, JobTitleConverter>();

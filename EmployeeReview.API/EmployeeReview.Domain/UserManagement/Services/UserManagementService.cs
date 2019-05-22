@@ -13,15 +13,15 @@ namespace EmployeeReview.Domain.UserManagement.Services
 {
     public class UserManagementService: IUserManagementService
     {
-        private readonly IEmployeeConverter _employeeConverter;
+        private readonly IUserDetailConverter _userDetailConverter;
         private readonly IUserRepository _userRepository;
         private readonly IPrincipalHelper _principalHelper;
         private readonly IRoleRepository _roleRepository;
         private readonly IUserRoleDaoConverter _userRoleDaoConverter;
 
-        public UserManagementService(IEmployeeConverter employeeConverter, IUserRepository userRepository, IPrincipalHelper principalHelper, IRoleRepository roleRepository, IUserRoleDaoConverter userRoleDaoConverter)
+        public UserManagementService(IUserDetailConverter userDetailConverter, IUserRepository userRepository, IPrincipalHelper principalHelper, IRoleRepository roleRepository, IUserRoleDaoConverter userRoleDaoConverter)
         {
-            _employeeConverter = employeeConverter;
+            _userDetailConverter = userDetailConverter;
             _userRepository = userRepository;
             _principalHelper = principalHelper;
             _roleRepository = roleRepository;
@@ -31,7 +31,7 @@ namespace EmployeeReview.Domain.UserManagement.Services
         public IEnumerable<UserDetails> GetAll()
         {
             var usersDAO = _userRepository.GetAllUsersDetails().ToList();
-            var userDetails = usersDAO.ConvertAll(x => _employeeConverter.Convert(x));
+            var userDetails = usersDAO.ConvertAll(x => _userDetailConverter.Convert(x));
             return userDetails;
         }
 
@@ -48,7 +48,7 @@ namespace EmployeeReview.Domain.UserManagement.Services
                 throw new EntityNotFoundException($"Role with name {roleName} not found");
             }
             var usersDAO = _userRepository.GetByRole(role.Id).ToList();
-            var userDetails = usersDAO.ConvertAll(x => _employeeConverter.Convert(x));
+            var userDetails = usersDAO.ConvertAll(x => _userDetailConverter.Convert(x));
             return userDetails;
         }
 
@@ -59,15 +59,15 @@ namespace EmployeeReview.Domain.UserManagement.Services
                 throw new UnauthorizedOperationException($"User does not have permissions to do this operation.");
             }
             var usersDAO = _userRepository.GetBySupervisorId(supervisorId).ToList();
-            var userDetails = usersDAO.ConvertAll(x => _employeeConverter.Convert(x));
+            var userDetails = usersDAO.ConvertAll(x => _userDetailConverter.Convert(x));
             return userDetails;
         }
 
-        public UserDetails GetDetailsAboutMe(Guid userId)
+        public UserDetails GetDetails(Guid userId)
         {
             var loggedUserId = _principalHelper.Principal.Claims.SingleOrDefault(x => x.Type == "jti");
             var userDao = _userRepository.GetUserDetailById(userId);
-            return _employeeConverter.Convert(userDao);
+            return _userDetailConverter.Convert(userDao);
         }
 
         public void UpdateUsersJobInformation(UserJobInformation jobInformation)
@@ -90,6 +90,7 @@ namespace EmployeeReview.Domain.UserManagement.Services
             }
             user.SupervisorId = jobInformation.SupervisorId;
             user.TitleId = jobInformation.JobTitle;
+            user.TeamId = jobInformation.TeamId;
             _userRepository.SaveChanges();
         }
 
