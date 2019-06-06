@@ -10,6 +10,7 @@ const UserView = (props) => {
     }
 
         return(
+
             <div className="col-xs-4 col-sm-4 col-md-3 col-lg-2">
             <div className="card h-100 mt-4 text-center" onClick={() => openUserDetails(props.id)}>
                 <img className="card-img-top mx-auto align-items-stretch" src={user} alt="User"/>

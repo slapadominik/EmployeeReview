@@ -7,5 +7,6 @@ namespace EmployeeReview.Domain.UserManagement.DTO
         public Guid UserId { get; set; }
         public int JobTitle { get; set; }
         public Guid SupervisorId{ get; set; }
+        public int TeamId { get; set; }
     }
 }

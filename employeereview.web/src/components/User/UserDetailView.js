@@ -48,23 +48,28 @@ class UserDetailView extends Component {
                         <h4 className="display-3">{this.props.firstName} {this.props.lastName}</h4> 
                     </div>
                 </div> 
-                <div className="row mt-2">
-                    <div className="col-md-8 offset-md-2 text-center">
+                <div className="row">
+                    <div className="col-md-6 offset-md-3 text-center ">
                         <p className="display-4">{this.props.title.name}</p>
                     </div>
                 </div> 
-                {this.props.supervisor && <div className="row">
-                    <div className="col-md-8 offset-md-2 text-center">
-                        <p className="display-4">Przełożony: {this.props.supervisor.firstName+' '+this.props.supervisor.lastName}</p>
+                {<div className="row">
+                    <div className="col-md-6 offset-md-3 text-center">
+                        <p className="display-4">Przełożony: {this.props.supervisor !== null ? this.props.supervisor.firstName+' '+this.props.supervisor.lastName : "Brak"}</p>
                     </div>
                 </div> }
-                <div className="row mt-3">    
+                {<div className="row">
+                    <div className="col-md-6 offset-md-3 text-center">
+                        <p className="display-4">Zespół: {this.props.team !== null ? this.props.team.name : "Brak"}</p>
+                    </div>
+                </div> }
+                {this.props.loggedUser.role.includes(ADMIN_ROLE) && <div className="row mt-3">    
                     <div className="col-md-4 offset-md-4 text-center">  
                         <ul className="wtf">
                             {this.mapRoles()}
                         </ul> 
                     </div>                
-                </div>
+                </div>}
                 <div className="row mt-2">
                     <div className="col-md-8 offset-md-2 text-center">
                         {this.props.loggedUser.role.includes(ADMIN_ROLE)  && <button className="btn btn-danger mr-2" onClick={this.editUserInfoOnClick}><FontAwesomeIcon icon="pen"/>Edytuj profil</button>}
@@ -72,14 +77,14 @@ class UserDetailView extends Component {
                         {this.props.loggedUser.role.includes(SUPERVISOR_ROLE) &&<button className="btn btn-danger" onClick={this.addReviewOnClick}><FontAwesomeIcon icon="pen"/> Dodaj opinie</button>}
                     </div>
                 </div>
-                <div className="row mt-4">
+                {(this.props.loggedUser.role.includes(ADMIN_ROLE) || this.props.loggedUser.role.includes(SUPERVISOR_ROLE)) && <div className="row mt-4">
                     <div className="col-md-8 offset-md-2 text-center">
                         <h5 className="display-4">Opinie</h5>
                     </div>
-                </div>
-                <div className="col-md-6 offset-md-3">
+                </div>}
+                {(this.props.loggedUser.role.includes(ADMIN_ROLE) || this.props.loggedUser.role.includes(SUPERVISOR_ROLE)) && <div className="col-md-6 offset-md-3">
                 <ReviewsContainer userId={this.props.id} />   
-                </div>         
+                </div>}
             </div>
         );
     }

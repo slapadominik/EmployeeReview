@@ -40,7 +40,7 @@ namespace EmployeeReview.Domain.UserManagement.Repositories
 
         public UserDAO GetUserDetailById(Guid userId)
         {
-            return _dbContext.Users.Include(x => x.Title).Include(x => x.Supervisor).Include(x => x.UserRole).ThenInclude(x => x.Role).SingleOrDefault(x => x.Id == userId);            
+            return _dbContext.Users.Include(x => x.Title).Include(x => x.Team).Include(x => x.Supervisor).Include(x => x.UserRole).ThenInclude(x => x.Role).SingleOrDefault(x => x.Id == userId);            
         }
 
         public UserDAO GetBrief(Guid userId)

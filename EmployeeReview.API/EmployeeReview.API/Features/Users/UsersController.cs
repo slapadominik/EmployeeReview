@@ -59,7 +59,7 @@ namespace EmployeeReview.API.Features.Users
         {
             try
             {
-                var employeeDetails = _userManagementService.GetDetailsAboutMe(id);
+                var employeeDetails = _userManagementService.GetDetails(id);
                 return Ok(employeeDetails);
             }
             catch (UnauthorizedOperationException ex)
@@ -78,7 +78,14 @@ namespace EmployeeReview.API.Features.Users
         {
             try
             {
-                _userManagementService.UpdateUsersJobInformation(new UserJobInformation{UserId = userId, JobTitle = userInfo.JobTitleId, SupervisorId = userInfo.SupervisorId});
+                _userManagementService.UpdateUsersJobInformation(
+                    new UserJobInformation
+                    {
+                        UserId = userId,
+                        JobTitle = userInfo.JobTitleId,
+                        SupervisorId = userInfo.SupervisorId,
+                        TeamId = userInfo.TeamId
+                    });
                 return Ok();
             }
             catch (UnauthorizedOperationException ex)

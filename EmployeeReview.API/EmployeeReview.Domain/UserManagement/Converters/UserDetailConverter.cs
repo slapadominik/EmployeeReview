@@ -1,16 +1,17 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using EmployeeReview.Domain.UserManagement.Converters.Interfaces;
 using EmployeeReview.Domain.UserManagement.DTO;
 using UserDAO = EmployeeReview.Domain.Common.Persistence.DAO.UserDAO;
 
 namespace EmployeeReview.Domain.UserManagement.Converters
 {
-    public class EmployeeConverter : IEmployeeConverter
+    public class UserDetailConverter : Interfaces.IUserDetailConverter
     {
         private readonly IMapper _mapper;
         private readonly IRoleConverter _roleConverter;
 
-        public EmployeeConverter(IRoleConverter roleConverter)
+        public UserDetailConverter(IRoleConverter roleConverter)
         {
             _roleConverter = roleConverter;
             var mapperConfig = new MapperConfiguration(cfg =>
@@ -40,6 +41,11 @@ namespace EmployeeReview.Domain.UserManagement.Converters
                     UserId = user.Supervisor.Id, FirstName = user.Supervisor.FirstName,
                     LastName = user.Supervisor.LastName
                 };
+            }
+
+            if (user.Team != null)
+            {
+                result.Team = new Team() {Id = user.TeamId.Value, Name = user.Team.Name};
             }
             return result;
         }

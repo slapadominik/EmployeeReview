@@ -12,9 +12,11 @@ class EditUserInfoForm extends Component {
         this.state = {
             jobTitleId: '',
             supervisorId: '',
-            jobTitles:[],
-            supervisors:[]
-        }
+            teamId: '',
+            jobTitles:[],        
+            supervisors:[],
+            teams: []
+        };
     }
     returnBackOnClick = e => {
         this.props.history.goBack();
@@ -23,7 +25,13 @@ class EditUserInfoForm extends Component {
     componentDidMount(){
         axios.get(`${BASE_URL}/users/${this.props.match.params.id}`)
         .then(resp => {
-          this.setState({firstName: resp.data.firstName, jobTitleId: resp.data.jobTitle.id, lastName: resp.data.lastName, supervisorId: resp.data.supervisor.userId});
+            console.log(resp)
+          if (resp.data.supervisor){
+            this.setState({firstName: resp.data.firstName, jobTitleId: resp.data.jobTitle.id, lastName: resp.data.lastName, supervisorId: resp.data.supervisor.userId});
+          }
+          else{
+            this.setState({firstName: resp.data.firstName, jobTitleId: resp.data.jobTitle.id, lastName: resp.data.lastName});
+          }
         }).catch(err => {
           console.log(err);
         })
@@ -40,19 +48,30 @@ class EditUserInfoForm extends Component {
           this.setState({jobTitles: resp.data});
         }).catch(err => {
           console.log(err);
-        })
+        });
+
+        axios.get(`${BASE_URL}/teams`)
+        .then(resp => {
+            console.log(resp)
+          this.setState({teams: resp.data});
+        }).catch(err => {
+          console.log(err);
+        });
     }
 
     selectOnChange = (e) => {
+        console.log(e.target.value)
         this.setState({[e.target.name]: e.target.value});
     }
 
     submit = e => {
         e.preventDefault();
+        console.log(this.state)
         axios.patch(BASE_URL+`/users/${this.props.match.params.id}/jobInformation`,
         {
             jobTitleId: this.state.jobTitleId,
-            supervisorId: this.state.supervisorId
+            supervisorId: this.state.supervisorId,
+            teamId: this.state.teamId
         })
         .then(resp => {
             this.props.history.goBack();
@@ -89,7 +108,17 @@ class EditUserInfoForm extends Component {
                                     </Form.Control>
                                 </Form.Group>
                             </Col>
-                        </Row>          
+                        </Row>
+                        <Row className="justify-content-md-center">
+                            <Col md={6}>
+                                <Form.Group controlId="exampleForm.ControlSelect1">
+                                    <Form.Label>Zespół</Form.Label>
+                                    <Form.Control name="teamId" as="select" value={this.state.teamId} onChange={this.selectOnChange}>
+                                        {this.state.teams.map((x,key) => <option key={key} value={x.id}>{x.name}</option>)}
+                                    </Form.Control>
+                                </Form.Group>
+                            </Col>
+                        </Row>            
                         <Row className="justify-content-md-center">
                             <Col md={6}>
                                 <Button className="pull-right" variant="danger" type="submit" onClick={this.submit}>

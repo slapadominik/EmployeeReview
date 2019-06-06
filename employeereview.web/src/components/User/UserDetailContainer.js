@@ -15,6 +15,7 @@ class UserDetailContainer extends Component {
         axios.get(BASE_URL+`/users/${this.props.match.params.id}`)
         .then(response => {
             if (response.status===200){
+                console.log(response.data)
                 this.setState({user: response.data})
             }
         }).catch(error => {
@@ -30,7 +31,7 @@ class UserDetailContainer extends Component {
     render(){
         return(
             <div>
-                {this.state.user && <UserDetailView loggedUser={this.props.user} id={this.state.user.id} firstName={this.state.user.firstName} lastName={this.state.user.lastName} title={this.state.user.jobTitle} roles={this.state.user.roles} supervisor={this.state.user.supervisor}/>}
+                {this.state.user && <UserDetailView loggedUser={this.props.user} id={this.state.user.id} firstName={this.state.user.firstName} lastName={this.state.user.lastName} title={this.state.user.jobTitle} roles={this.state.user.roles} supervisor={this.state.user.supervisor} team={this.state.user.team}/>}
             </div>
         );
     }

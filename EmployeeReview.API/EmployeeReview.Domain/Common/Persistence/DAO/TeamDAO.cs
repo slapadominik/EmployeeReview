@@ -14,6 +14,6 @@ namespace EmployeeReview.Domain.Common.Persistence.DAO
         [Required]
         public string Name { get; set; }
 
-        public IList<UserTeamDAO> UserTeam { get; set; } = new List<UserTeamDAO>();
+        public IList<UserDAO> Users { get; set; } = new List<UserDAO>();
     }
 }

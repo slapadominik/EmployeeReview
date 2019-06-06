@@ -12,6 +12,7 @@ namespace EmployeeReview.Domain.UserManagement.DTO
         public JobTitle JobTitle { get; set; }
         public ICollection<Role> Roles { get; set; }
         public UserBrief Supervisor { get; set; }
+        public Team Team { get; set; }
 
         public UserDetails()
         {

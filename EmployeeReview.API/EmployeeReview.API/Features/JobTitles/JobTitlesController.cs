@@ -24,7 +24,6 @@ namespace EmployeeReview.API.Features.JobTitles
         /// Gets information about existing job titles in the company.
         /// </summary>
         [HttpGet]
-        [Authorize]
         public IActionResult GetAll()
         {
             var jobTitlesDao = _jobTitlesRepository.Get();
