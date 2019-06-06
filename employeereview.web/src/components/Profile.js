@@ -6,7 +6,7 @@ import './Profile.css';
 import user from '../images/user.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ReviewsContainer from './Reviews/ReviewsContainer';
-import { EMPLOYEE_ROLE } from '../constants'
+import { EMPLOYEE_ROLE, ADMIN_ROLE } from '../constants'
 class Profile extends Component {
     constructor(props){
         super(props);
@@ -55,6 +55,10 @@ class Profile extends Component {
         this.props.history.goBack();
     }
 
+    mapRoles = () => {
+        return this.state.roles.map((x,i) => <li className="badge badge-primary mr-2 text-center" key={i}><h6>{x.name}</h6></li>)
+    }
+
     render() {
         return (
             <div className="container justify-content-center">
@@ -89,7 +93,14 @@ class Profile extends Component {
                         <p className="display-4">Zespół: {this.state.team ? this.state.team.name : "Brak"}</p>
                     </div>
                 </div>
-                <div className="row mt-1">
+                {this.state.roles.filter(x => x.Name === ADMIN_ROLE) && <div className="row">    
+                    <div className="col-md-4 offset-md-4 text-center">  
+                        <ul className="wtf">
+                            {this.mapRoles()}
+                        </ul> 
+                    </div>                
+                </div>}
+                <div className="row">
                     <div className="col-md-4 offset-md-4 text-center">
                         <h5 className="display-4">Email: {this.props.user.email}</h5> 
                     </div>

@@ -15,7 +15,6 @@ const UserView = (props) => {
             <div className="card h-100 mt-4 text-center" onClick={() => openUserDetails(props.id)}>
                 <img className="card-img-top mx-auto align-items-stretch" src={user} alt="User"/>
                 <div className="card-body">
-                {console.log('siema main employee container')}
                     <h5 className="card-title">{props.firstName} {props.lastName}</h5>
                     <p className="text-center">{props.title.name}</p>
                 </div>
